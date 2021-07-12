@@ -1,0 +1,181 @@
+<html>
+<head>
+  <!-- FastSpring header script -->
+  <script
+      id="fsc-api"
+      src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.5/fastspring-builder.min.js"
+      type="text/javascript"
+      data-storefront="aharvey.test.onfastspring.com"
+      data-data-callback="dataCallback">
+  </script>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<div class="column" style="background-color: whiteSmoke; padding:20px; border-radius: 25px;">
+  <!-- Product Information -->
+  <p><span class="product-name" data-fsc-item-path="demo-product-1" data-fsc-item-display></span></p>
+
+  <!-- Product image served from FastSpring server -->
+  <p><img data-fsc-item-path="demo-product-1" data-fsc-item-image></img></p>
+
+  <!-- Using the Long Description product field to contain system requirement information -->
+  <span data-fsc-item-path="demo-product-1" data-fsc-item-description-full></span>
+
+  <!-- Price auto-located -
+        Two price elements are displayed here - one with tax and one without.
+
+      We will use javascript to dynamically hide or show the appropriate one depending on     whether the customer can apply a VAT ID to remove that tax. If they can, we will show the price without tax here. If not, with tax.
+
+      The goal is to have consistency of pricing from start to finish.
+-->
+  <p>
+    <span class="price" id="productPriceWithoutTax" data-fsc-item-path="demo-product-1" data-fsc-item-priceWithoutTax></span>
+    <span class="price" id="productPriceWithTax" data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
+    </p>
+
+  <!-- Buy Now button that launches the modal popup -->
+  <p>
+    <button id="myBtn">Buy Now</button>
+  </p>
+</div>
+
+
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <label for="country">Country: </label>
+
+            <select id="country" name="country" class="form-control" onchange="changeCountry()">
+                <option value="HR">Croatia</option>
+                <option value="JP">Japan</option>
+                <option value="NL">Netherlands</option>
+                <option value="GB">United Kingdom</option>
+                <option value="US">United States</option>
+            </select>
+
+          Currency: <span style="font-size:small" data-fsc-order-currency></span>
+
+          <p id="vatP"><label class="vat" for="vatid">VAT ID: </label>
+            <input class="vat" type="text" id="vatid" name="vatid"> <input type="submit" id="applyVATButton" class="vat" value="Apply VAT ID" onClick="applyVATID();"> <input type="submit" id="reset" class="vat" value="Reset" onClick="resetOrder();">
+            <br/><span class="vat" style="font-size:small;color:grey;" id="vatResult">Without a valid VAT ID, we will charge VAT in addition to the price.</span></p>
+
+
+          <p><button data-fsc-item-path-value='demo-product-1' data-fsc-action="Add, Checkout">Checkout</button></p>
+  </div>
+
+</div>
+
+
+<script type="text/javascript">
+function dataCallback(data) {
+  // Callback documentation:
+  // https://fastspringexamples.com/callback/data-data-callback/
+
+  //Automatically update the country selector to match the IP Geo-located country
+  // that FastSpring have detected that the buyer is visiting from.
+  document.getElementById('country').value = data.country;
+  isVATIDEnabled(data.country);
+
+  if (data.taxExempt === true) {
+     document.getElementById('vatid').disabled = true;
+  } else {
+    document.getElementById('reset').disabled = true;
+  }
+}
+
+function changeCountry() {
+  // Country selectory functionality
+
+  orderCountry = document.getElementById('country').value;
+  resetOrder();
+  fastspring.builder.country(orderCountry);
+  isVATIDEnabled(orderCountry);
+}
+
+function isVATIDEnabled(country) {
+  // Only enable the VAT ID collection for European countries
+
+  if (country === 'NL' || country === 'HR' || country === 'GB') {
+
+       // Switch the page's product price to include tax or not
+      document.getElementById('productPriceWithTax').style.display = "none";
+      document.getElementById('productPriceWithoutTax').style.display = "block";
+
+      document.getElementById('vatid').disabled = false;
+
+    // Show the VAT ID ui elements
+    [].forEach.call(document.querySelectorAll('.vat'), function (el) {
+      el.style.display = "inline";
+    });
+
+    document.getElementById('vatP').style.display = "block";
+
+  } else {
+    document.getElementsByClassName('vat')[0].disabled = true;
+
+      // Switch the page's product price to include tax or not
+      document.getElementById('productPriceWithTax').style.display = "block";
+      document.getElementById('productPriceWithoutTax').style.display = "none";
+
+    // Hide the VAT ID ui elements
+    [].forEach.call(document.querySelectorAll('.vat'), function (el) {
+      el.style.display = "none";
+    });
+
+    document.getElementById('vatP').style.display = "none";
+  }
+}
+
+function applyVATID() {
+  taxid = document.getElementById('vatid').value;
+  if (taxid) {
+    fastspring.builder.taxId(taxid);
+    document.getElementById('vatid').disabled = true;
+    document.getElementById('applyVATButton').disabled = true;
+    document.getElementById('reset').disabled = false;
+    document.getElementById('vatResult').style.color = 'green';
+    document.getElementById('vatResult').innerHTML = 'No VAT will be charged for this order.';
+  }
+}
+
+function resetOrder() {
+  fastspring.builder.reset();
+  document.getElementById('vatid').value = "";
+  document.getElementById('applyVATButton').disabled = false;
+  document.getElementById('vatResult').style.color = 'grey';
+  document.getElementById('vatResult').innerHTML = "Without a valid VAT ID, we will charge VAT in addition to the price.";
+}
+
+// Modal JavaScript
+// ------------------------------------
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>
