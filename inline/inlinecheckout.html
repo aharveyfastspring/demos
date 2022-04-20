@@ -24,7 +24,7 @@
       }
    </style>
    
-   <body onload="fastspring.builder.checkout();">
+   <body>
       <div class="row">
          <div class="column">
             <h1>Inline Checkout Test</h1>
@@ -42,6 +42,7 @@
          // Print the contents of the callback payload
          
           function dataCallback(data) {
+              fastspring.builder.checkout();
               document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
           }
          
