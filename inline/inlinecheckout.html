@@ -70,10 +70,17 @@
 				   
                                  // Item Quantity
                                  var itemQuantity = document.createTextNode(" x " + item.quantity);
-                                 
+
+                                 // Remove Item
+                                 var removeItem = document.createElement("i");
+				 removeItem.className = "bi bi-x-circle";
+				 removeItem.onclick = function() { alert('blah'); };
+				  
                                  cartItemListing.appendChild(itemNameSpan);
                                  cartItemListing.appendChild(itemQuantity);
                                  
+				 cartItemListing.appendChild(removeItem);
+				   
                                  var element = document.getElementById("cartContents");
                                  element.appendChild(cartItemListing);
                                  
