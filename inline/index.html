@@ -41,6 +41,7 @@
 	<p><button onclick="buyNow();">Checkout</button></p>
 	
 	<script>
+	var numItemsInCart = 0;
 		
 	function buyNow() {
 		var orderSession = {
@@ -56,9 +57,7 @@
 	}
 		
 	function dataCallback(data) {
-		
-		var numItemsInCart = 0;
-		
+				
             if (data && data.hasOwnProperty('groups')) {
                 const {
                     groups
@@ -68,14 +67,14 @@
                         group.items.forEach(item => {
                         
                            if (item.selected) {
-				numItemsInCart + item.quantity;                                        
+				numItemsInCart += parseInt(item.quantity);                                        
                            }
                         });
                     }
                 });
 
             }
-		
+		console.log(numItemsInCart);
 		document.getElementById("itemsInCart").innerHTML = numItemsInCart;
 	}
 	
