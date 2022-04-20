@@ -8,7 +8,7 @@
          type="text/javascript"
          data-storefront="aharveyqa.test.qa1.onfastspring.com/inline-aharvey"
          data-data-callback="dataCallback"
-         data-continuous=true></script>
+         data-continuous="true"></script>
    </head>
    <style>
       * {
@@ -24,7 +24,7 @@
       }
    </style>
    
-   <body>
+   <body onload="fastspring.builder.checkout();">
       <div class="row">
          <div class="column">
             <h1>Inline Checkout Test</h1>
@@ -38,15 +38,15 @@
 
       
       <script>
+         
+         // Print the contents of the callback payload
+         
           function dataCallback(data) {
               document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
           }
+         
       </script>
       
-            
-      <script>
-         fastspring.builder.checkout();
-      </script>
       
    </body>
 </html>
