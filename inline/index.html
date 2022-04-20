@@ -10,33 +10,36 @@
 	
 </head>
 
-<body>
+<body onload="fastspring.builder.reset();">
+	
 	<span data-fsc-item-path="demo-product-1" data-fsc-item-display></span>
 	<br />
 	<span data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
 
-	<p><button onclick="buyNow();">Buy Now</button>	</p>
+	<p><button data-fsc-item-path-value="demo-product-1" data-fsc-action="Add">Add To Cart</button></p>
 
+	<span data-fsc-item-path="demo-product-2" data-fsc-item-display></span>
+	<br />
+	<span data-fsc-item-path="demo-product-2" data-fsc-item-price></span>
+
+	<p><button data-fsc-item-path-value="demo-product-2" data-fsc-action="Add">Add To Cart</button></p>
+	
+	<span data-fsc-item-path="demo-product-3" data-fsc-item-display></span>
+	<br />
+	<span data-fsc-item-path="demo-product-3" data-fsc-item-price></span>
+
+	<p><button data-fsc-item-path-value="demo-product-3" data-fsc-action="Add">Add To Cart</button></p>
+	
+	<span data-fsc-item-path="demo-product-4" data-fsc-item-display></span>
+	<br />
+	<span data-fsc-item-path="demo-product-4" data-fsc-item-price></span>
+
+	<p><button data-fsc-item-path-value="demo-product-4" data-fsc-action="Add">Add To Cart</button></p>
+	
 	<script>
 		
 	function buyNow() {
-		fastspring.builder.reset();
-
 		var orderSession = {
-			"products" : [
-				{
-					"path":"demo-product-1",
-					"quantity": 3
-				},
-				{
-					"path":"demo-product-2",
-					"quantity": 1
-				},
-				{
-					"path":"demo-product-3",
-					"quantity": 1
-				}			
-			],
 			"paymentContact": {
 				"email":"aharvey@fastspring.com",
 				"firstName":"Adam",
@@ -47,10 +50,6 @@
 		
 		fastspring.builder.push(orderSession, function(){window.location="./inlinecheckout.html";});
 	}
-		
-	function dataCallback(data) {
-		      document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
-		  }
 		
 	</script>
 
