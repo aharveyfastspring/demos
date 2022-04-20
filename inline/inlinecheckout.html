@@ -68,12 +68,22 @@
                            if (item.selected) {
                               
                                  // Product name and quantity
-                                 var divTag = document.createElement("div");
-                                 divTag.className = "cartProductName";
-                                 var productName = document.createTextNode(item.display + " x " + item.quantity);
-                                 divTag.appendChild(productName);
+                                 var cartItemListing = document.createElement("div");
+				   
+				 // Product Name
+                                 var itemNameSpan = document.createElement("span");
+                                 itemNameSpan.className = "cartProductName";
+				 var productName = document.createTextNode(item.display);
+				 itemNameSpan.appendChild(productName);
+				   
+				 // Item Quantity
+				 var itemQuantity = document.createTextNode(" x " + item.quantity);
+				   
+				cartItemListing.appendChild(itemNameSpan);
+				cartItemListing.appendChild(itemQuantity);
+				   
                                  var element = document.getElementById("cartContents");
-                                 element.appendChild(divTag);
+                                 element.appendChild(cartItemListing);
                            
                                  // Item total
                                  var divTag = document.createElement("div");
