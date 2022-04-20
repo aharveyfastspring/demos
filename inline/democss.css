@@ -45,5 +45,6 @@ div.orderTotal {
 }
 
 .red {
-      color: DarkRed;
+      color: red;
+      font-weight: bold;
 }
