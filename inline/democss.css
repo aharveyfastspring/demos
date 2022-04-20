@@ -44,7 +44,7 @@ div.orderTotal {
   font-size: 85%;
 }
 
-.red {
+.remove {
       color: red;
-      font-weight: bold;
+      padding-left:4em;
 }
