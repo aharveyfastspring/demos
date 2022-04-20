@@ -52,6 +52,8 @@
               // Initiate the InLine checkout
               fastspring.builder.checkout();
              
+             console.log(JSON.stringify(data, null, 4));
+             
              // Loop over the order session to retreive and display the contents
              
             if (data && data.hasOwnProperty('groups')) {
