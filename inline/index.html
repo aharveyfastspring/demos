@@ -15,12 +15,19 @@
 	<br />
 	<span data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
 
-	<p>
-	      <form action="./inlinecheckout.html">
-		<button data-fsc-item-path-value='demo-product-1' data-fsc-action="Reset, Add"  type="submit">
-			Buy Now
-		</button>
-	    </form>
-	</p>
+	<p><button onclick="buyNow();">Buy Now</button>	</p>
+
+	<script>
+		
+	function buyNow() {
+		fastspring.builder.reset();
+		fastspring.builder.add("demo-product-1", function(){window.location="./inlinecheckout.html";});
+	}
+		
+	function dataCallback(data) {
+		      document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
+		  }
+		
+	</script>
 
 </body>
