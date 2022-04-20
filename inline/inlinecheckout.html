@@ -28,7 +28,13 @@
       <div class="row">
          <div class="column">
             <h1>Inline Checkout Test</h1>
-            <br />Callback Payload: <div id="log"></div>
+            <br />
+            
+            <p>
+            <!-- Product 1 -->
+            <div id="product1_name" /> <div id="product1_quantity" />
+            <br /><div id="product1_price" />
+            </p>
          </div>
          <div class="column">
             <div id="fsc-inline-checkout-container">
@@ -42,10 +48,30 @@
          // Print the contents of the callback payload
          
           function dataCallback(data) {
+             
+              // Initiate the InLine checkout
               fastspring.builder.checkout();
-              document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
-          }
-         
+             
+             // Loop over the order session to retreive and display the contents
+             
+            if (data && data.hasOwnProperty('groups')) {
+                const {
+                    groups
+                } = data;
+                groups.forEach(group => {
+                    if (group.items && Array.isArray(group.items)) {
+                        group.items.forEach(item => {
+                        
+                           if (item.selected) {
+                                 document.getElementById("product1_name").innerHTML = item.display;   
+                                 document.getElementById("product1_price").innerHTML = item.price;   
+                                 document.getElementById("product1_quantity").innerHTML = item.quantity;   
+                           }
+                        });
+                    }
+                });
+            }
+            }
       </script>
       
       
