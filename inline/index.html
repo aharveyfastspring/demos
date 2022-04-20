@@ -21,12 +21,31 @@
 		
 	function buyNow() {
 		fastspring.builder.reset();
-		//fastspring.builder.add("demo-product-1", function(){window.location="./inlinecheckout.html";});
+
+		var orderSession = {
+			"products" : [
+				{
+					"path":"demo-product-1",
+					"quantity": 3
+				},
+				{
+					"path":"demo-product-2",
+					"quantity": 1
+				},
+				{
+					"path":"demo-product-3",
+					"quantity": 1
+				}			
+			],
+			"paymentContact": {
+				"email":"aharvey@fastspring.com",
+				"firstName":"Adam",
+				"lastName":"Harvey"
+			},
+			"language":"en"
+		};
 		
-		fastspring.builder.add("demo-product-1");
-		fastspring.builder.add("demo-product-2");
-		fastspring.builder.add("demo-product-3");
-		window.location="./inlinecheckout.html";
+		fastspring.builder.push(orderSession, function(){window.location="./inlinecheckout.html";});
 	}
 		
 	function dataCallback(data) {
