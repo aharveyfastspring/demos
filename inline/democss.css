@@ -7,7 +7,7 @@ body {
   padding:20px;
 }
 
-div.cartProductName {
+span.cartProductName {
   font-weight: bold;
   font-size: 120%;
 }
