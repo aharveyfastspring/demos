@@ -27,13 +27,13 @@
    <body>
       <div class="row">
          <div class="column">
-            <h1>Inline Checkout Test</h1>
+            <h1>Inline Checkout Test</h1>https://github.com/aharveyfastspring/demos/blob/main/inline/inlinecheckout.html
             <br />
             
             <p>
             <!-- Product 1 -->
-            <div id="product1Name" /> <div id="product1Quantity" />
-            <br /><div id="product1Price" />
+            <div id="product1Name"></div> <div id="product1Quantity"></div>
+            <br /><div id="product1Price"></div>
             </p>
          </div>
          <div class="column">
@@ -65,9 +65,9 @@
                         group.items.forEach(item => {
                         
                            if (item.selected) {
-                                 document.getElementById("product1Name").innerHTML = item.display;   
-                                 document.getElementById("product1Price").innerHTML = item.price;   
-                                 document.getElementById("product1Quantity").innerHTML = "x " + item.quantity;   
+                              document.getElementById("product1Name").innerHTML = item.display;                                 
+                              document.getElementById("product1Quantity").innerHTML = "x " + item.quantity;
+                              document.getElementById("product1Price").innerHTML = item.total;
                            }
                         });
                     }
