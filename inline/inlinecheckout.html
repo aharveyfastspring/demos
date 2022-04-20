@@ -91,6 +91,18 @@
                         });
                     }
                 });
+               
+			   	// Order total
+                var hrTag = document.createElement("hr");
+                var element = document.getElementById("cartContents");
+                element.appendChild(hrTag);
+				
+                var divTag = document.createElement("div");
+                divTag.className = "cartItemTotal";
+                var itemTotal = document.createTextNode("Order Total: " + data.total);
+                divTag.appendChild(itemTotal);
+                var element = document.getElementById("cartContents");
+                element.appendChild(divTag);
             }
             }
       </script>
