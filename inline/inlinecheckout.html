@@ -32,8 +32,8 @@
             
             <p>
             <!-- Product 1 -->
-            <div id="product1_name" /> <div id="product1_quantity" />
-            <br /><div id="product1_price" />
+            <div id="product1Name" /> <div id="product1Quantity" />
+            <br /><div id="product1Price" />
             </p>
          </div>
          <div class="column">
@@ -65,9 +65,9 @@
                         group.items.forEach(item => {
                         
                            if (item.selected) {
-                                 document.getElementById("product1_name").innerHTML = item.display;   
-                                 document.getElementById("product1_price").innerHTML = item.price;   
-                                 document.getElementById("product1_quantity").innerHTML = "x " + item.quantity;   
+                                 document.getElementById("product1Name").innerHTML = item.display;   
+                                 document.getElementById("product1Price").innerHTML = item.price;   
+                                 document.getElementById("product1Quantity").innerHTML = "x " + item.quantity;   
                            }
                         });
                     }
