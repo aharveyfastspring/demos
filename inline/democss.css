@@ -19,3 +19,9 @@ div.cartItemTotal {
   color: forestgreen;
   font-size: 85%;
 }
+
+div.orderTotal {
+  font-weight: bold;
+  color: forestgreen;
+  font-size: 85%;
+}
