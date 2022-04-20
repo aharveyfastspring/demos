@@ -1,10 +1,10 @@
-
 <html>
    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 	   
       <link rel="stylesheet" href="democss.css">
+	   
       <script
          id="fsc-api"
          src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/TNP-10608/fastspring-builder.js"
@@ -12,32 +12,29 @@
          data-storefront="aharveyqa.test.qa1.onfastspring.com/inline-aharvey"
          data-data-callback="dataCallback"
          data-continuous="true"></script>
-	 
-	 <!-- Bootstrap Icons -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+	   
+      <!-- Bootstrap Icons -->
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
    </head>
-   
+	
    <body>
       <h1>Inline Checkout Test</h1>
+	   
       <div class="flex_container">
          <div class="flex_item_left">
             <br />
-            
-            <h2><i class="bi bi-cart"></i> Shopping Cart Contents</h2>
-            
+            <h2>
+               <i class="bi bi-cart"></i> Shopping Cart Contents
+            </h2>
             <!-- Shopping Cart -->
             <div id="cartContents"></div>
-         
          </div>
          <div class="flex_item_right">
-            <div id="fsc-inline-checkout-container">
-            </div>
+            <div id="fsc-inline-checkout-container"></div>
          </div>
       </div>
-
-      
+	   
       <script>
-         
          // Print the contents of the callback payload
          
           function dataCallback(data) {
@@ -45,8 +42,11 @@
               // Initiate the InLine checkout
               fastspring.builder.checkout();
              
-             console.log(JSON.stringify(data, null, 4));
-             
+         // Debug
+         console.log(JSON.stringify(data, null, 4));
+         
+         cartContents.innerHTML = '';
+         
              // Loop over the order session to retreive and display the contents
              
             if (data && data.hasOwnProperty('groups')) {
@@ -59,8 +59,8 @@
                         
                            if (item.selected) {
                               
-				 var itemPath = item.path;
-				   
+         var itemPath = item.path;
+         
                                  // Product name and quantity
                                  var cartItemListing = document.createElement("div");
                                  
@@ -69,20 +69,20 @@
                                  itemNameSpan.className = "cartProductName";
                                  var productName = document.createTextNode(item.display);
                                  itemNameSpan.appendChild(productName);
-				   
+         
                                  // Item Quantity
                                  var itemQuantity = document.createTextNode(" x " + item.quantity);
-
+         
                                  // Remove Item
                                  var removeItem = document.createElement("i");
-				 removeItem.className = "bi bi-x-circle red";
-				 removeItem.onclick = function() { fastspring.builder.remove(itemPath); };
-				  
+         removeItem.className = "bi bi-x-circle red";
+         removeItem.onclick = function() { fastspring.builder.remove(itemPath); };
+         
                                  cartItemListing.appendChild(itemNameSpan);
                                  cartItemListing.appendChild(itemQuantity);
                                  
-				 cartItemListing.appendChild(removeItem);
-				   
+         cartItemListing.appendChild(removeItem);
+         
                                  var element = document.getElementById("cartContents");
                                  element.appendChild(cartItemListing);
                                  
@@ -108,15 +108,15 @@
                 var hrTag = document.createElement("hr");
                 var element = document.getElementById("cartContents");
                 element.appendChild(hrTag);
-				
+         
                 var orderTotalTag = document.createElement("div");
                 orderTotalTag.className = "orderTotal";
                 var itemTotal = document.createTextNode("Order Total: " + data.total);
                 orderTotalTag.appendChild(itemTotal);
                 var element = document.getElementById("cartContents");
                 element.appendChild(orderTotalTag);
-		    
-		// Tax
+         
+         // Tax
                 var taxTag = document.createElement("div");
                 taxTag.className = "cartItemTotal";
                 var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
@@ -126,7 +126,5 @@
             }
             }
       </script>
-      
-      
    </body>
 </html>
