@@ -3,3 +3,13 @@ body {
   margin:20px;
   padding:20px;
 }
+
+.cartProductName {
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.cartPrice {
+  color: forestgreen;
+  font-size: 120%;
+}
