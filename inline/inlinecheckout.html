@@ -64,9 +64,17 @@
                         
                            if (item.selected) {
                               
+                                 // Product name and quantity
                                  var tag = document.createElement("p");
                                  var productName = document.createTextNode(item.display + " x " + item.quantity);
                                  tag.appendChild(productName);
+                                 var element = document.getElementById("cartContents");
+                                 element.appendChild(tag);
+                           
+                                 // Price total
+                                 var tag = document.createElement("p");
+                                 var productPrice = document.createTextNode(item.total);
+                                 tag.appendChild(productPrice);
                                  var element = document.getElementById("cartContents");
                                  element.appendChild(tag);
                            }
