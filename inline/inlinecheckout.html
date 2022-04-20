@@ -22,6 +22,7 @@
       padding: 10px;
       }
    </style>
+   
    <body>
       <div class="row">
          <div class="column">
@@ -33,15 +34,17 @@
             </div>
          </div>
       </div>
-      <script>
-         fastspring.builder.add("demo-product-1");
-         fastspring.builder.checkout();
-      </script>
+
       
       <script>
           function dataCallback(data) {
               document.getElementById("log").innerHTML = "<pre>"+JSON.stringify(data, null, 4)+"</pre>";
           }
+      </script>
+      
+            
+      <script>
+         fastspring.builder.checkout();
       </script>
       
    </body>
