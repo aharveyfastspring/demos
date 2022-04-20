@@ -4,12 +4,12 @@ body {
   padding:20px;
 }
 
-.cartProductName {
+div.cartProductName {
   font-weight: bold;
   font-size: 120%;
 }
 
-.cartPrice {
+div.cartPrice {
   color: forestgreen;
   font-size: 120%;
 }
