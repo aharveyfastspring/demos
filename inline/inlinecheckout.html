@@ -127,7 +127,7 @@
 		// Tax
                 var taxTag = document.createElement("div");
                 taxTag.className = "cartItemTotal";
-                var taxDetails = document.createTextNode("Including VAT: " + data.tax + " (" + data.taxRate + ")");
+                var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
                 taxTag.appendChild(taxDetails);
                 var element = document.getElementById("cartContents");
                 element.appendChild(taxTag);
