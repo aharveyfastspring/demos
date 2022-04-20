@@ -59,6 +59,8 @@
                         
                            if (item.selected) {
                               
+				 var itemPath = item.path;
+				   
                                  // Product name and quantity
                                  var cartItemListing = document.createElement("div");
                                  
@@ -74,7 +76,7 @@
                                  // Remove Item
                                  var removeItem = document.createElement("i");
 				 removeItem.className = "bi bi-x-circle";
-				 removeItem.onclick = function() { alert('blah'); };
+				 removeItem.onclick = function() { fastspring.builder.remove(itemPath); };
 				  
                                  cartItemListing.appendChild(itemNameSpan);
                                  cartItemListing.appendChild(itemQuantity);
