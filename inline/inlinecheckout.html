@@ -112,17 +112,25 @@
                     }
                 });
                
-			   	// Order total
+                // Order total
                 var hrTag = document.createElement("hr");
                 var element = document.getElementById("cartContents");
                 element.appendChild(hrTag);
 				
-                var divTag = document.createElement("div");
-                divTag.className = "cartItemTotal";
+                var orderTotalTag = document.createElement("div");
+                orderTotalTag.className = "cartItemTotal";
                 var itemTotal = document.createTextNode("Order Total: " + data.total);
-                divTag.appendChild(itemTotal);
+                orderTotalTag.appendChild(itemTotal);
                 var element = document.getElementById("cartContents");
-                element.appendChild(divTag);
+                element.appendChild(orderTotalTag);
+		    
+		// Tax
+                var taxTag = document.createElement("div");
+                taxTag.className = "cartItemTotal";
+                var taxDetails = document.createTextNode("Including VAT: " + data.tax + " (" + data.taxRate + ")");
+                taxTag.appendChild(taxDetails);
+                var element = document.getElementById("cartContents");
+                element.appendChild(taxTag);
             }
             }
       </script>
