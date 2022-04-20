@@ -30,11 +30,9 @@
             <h1>Inline Checkout Test</h1>
             <br />
             
-            <p>
-            <!-- Product 1 -->
-            <div id="product1Name"></div> <span id="product1Quantity"></span>
-            <div id="product1Price"></div>
-            </p>
+            <!-- Shopping Cart -->
+            <div id="cartContents"></div>
+         
          </div>
          <div class="column">
             <div id="fsc-inline-checkout-container">
@@ -65,9 +63,12 @@
                         group.items.forEach(item => {
                         
                            if (item.selected) {
-                              document.getElementById("product1Name").innerHTML = item.display;                                 
-                              document.getElementById("product1Quantity").innerHTML = "x " + item.quantity;
-                              document.getElementById("product1Price").innerHTML = item.total;
+                              
+                                 var tag = document.createElement("p");
+                                 var productName = document.createTextNode("item.display" + " x " + "item.quantity");
+                                 tag.appendChild(productName);
+                                 var element = document.getElementById("cart");
+                                 element.appendChild(tag);
                            }
                         });
                     }
