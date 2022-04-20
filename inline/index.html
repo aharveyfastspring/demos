@@ -36,6 +36,8 @@
 
 	<p><button data-fsc-item-path-value="demo-product-4" data-fsc-action="Add">Add To Cart</button></p>
 	
+	<h2>Items in Cart <span id="itemsInCart">0</span></h2>
+	
 	<script>
 		
 	function buyNow() {
@@ -51,6 +53,31 @@
 		fastspring.builder.push(orderSession, function(){window.location="./inlinecheckout.html";});
 	}
 		
+	function dataCallback(data) {
+		
+		var numItemsInCart = 0;
+		
+            if (data && data.hasOwnProperty('groups')) {
+                const {
+                    groups
+                } = data;
+                groups.forEach(group => {
+                    if (group.items && Array.isArray(group.items)) {
+                        group.items.forEach(item => {
+                        
+                           if (item.selected) {
+				numItemsInCart + item.quantity;                                        
+                           }
+                        });
+                    }
+                });
+
+            }
+            }
+		
+		document.getElementById("itemsInCart").innerHTML = numItemsInCart;
+	}
+	
 	</script>
 
 </body>
