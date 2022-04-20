@@ -41,7 +41,6 @@
 	<p><button onclick="buyNow();">Checkout</button></p>
 	
 	<script>
-	var numItemsInCart = 0;
 		
 	function buyNow() {
 		var orderSession = {
@@ -57,26 +56,28 @@
 	}
 		
 	function dataCallback(data) {
-				
-            if (data && data.hasOwnProperty('groups')) {
-                const {
-                    groups
-                } = data;
-                groups.forEach(group => {
-                    if (group.items && Array.isArray(group.items)) {
-                        group.items.forEach(item => {
-                        
-                           if (item.selected) {
-				numItemsInCart += parseInt(item.quantity);                                        
-                           }
-                        });
-                    }
-                });
+	
+		var numItemsInCart = 0;	
+		
+		if (data && data.hasOwnProperty('groups')) {
+		const {
+		    groups
+		} = data;
+		groups.forEach(group => {
+		    if (group.items && Array.isArray(group.items)) {
+			group.items.forEach(item => {
 
-            }
+			   if (item.selected) {
+				numItemsInCart += parseInt(item.quantity);                                        
+			   }
+			});
+		    }
+		});
+
+		}
 		console.log(numItemsInCart);
 		document.getElementById("itemsInCart").innerHTML = numItemsInCart;
-	}
+		}
 	
 	</script>
 
