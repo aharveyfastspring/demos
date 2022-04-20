@@ -9,7 +9,7 @@ div.cartProductName {
   font-size: 120%;
 }
 
-div.cartPrice {
+div.cartItemTotal {
   color: forestgreen;
-  font-size: 120%;
+  font-size: 85%;
 }
