@@ -21,7 +21,12 @@
 		
 	function buyNow() {
 		fastspring.builder.reset();
-		fastspring.builder.add("demo-product-1", function(){window.location="./inlinecheckout.html";});
+		//fastspring.builder.add("demo-product-1", function(){window.location="./inlinecheckout.html";});
+		
+		fastspring.builder.add("demo-product-1");
+		fastspring.builder.add("demo-product-2");
+		fastspring.builder.add("demo-product-3");
+		function(){window.location="./inlinecheckout.html";}
 	}
 		
 	function dataCallback(data) {
