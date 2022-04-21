@@ -12,32 +12,44 @@
 
 <body onload="fastspring.builder.reset();">
 	
-	<span data-fsc-item-path="demo-product-1" data-fsc-item-display></span>
-	<br />
-	<span data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
-
-	<p><button data-fsc-item-path-value="demo-product-1" data-fsc-action="Add">Add To Cart</button></p>
-
-	<span data-fsc-item-path="demo-product-2" data-fsc-item-display></span>
-	<br />
-	<span data-fsc-item-path="demo-product-2" data-fsc-item-price></span>
-
-	<p><button data-fsc-item-path-value="demo-product-2" data-fsc-action="Add">Add To Cart</button></p>
+	<div class="productCatalogue">
+		
+	<div>
+		<span data-fsc-item-path="demo-product-1" data-fsc-item-display></span>
+		<br />
+		<span data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
 	
-	<span data-fsc-item-path="demo-product-3" data-fsc-item-display></span>
-	<br />
-	<span data-fsc-item-path="demo-product-3" data-fsc-item-price></span>
+		<p><button data-fsc-item-path-value="demo-product-1" data-fsc-action="Add">Add To Cart</button></p>
+	</div>
 
-	<p><button data-fsc-item-path-value="demo-product-3" data-fsc-action="Add">Add To Cart</button></p>
-	
-	<span data-fsc-item-path="demo-product-4" data-fsc-item-display></span>
-	<br />
-	<span data-fsc-item-path="demo-product-4" data-fsc-item-price></span>
+	<div>
+		<span data-fsc-item-path="demo-product-2" data-fsc-item-display></span>
+		<br />
+		<span data-fsc-item-path="demo-product-2" data-fsc-item-price></span>
 
-	<p><button data-fsc-item-path-value="demo-product-4" data-fsc-action="Add">Add To Cart</button></p>
+		<p><button data-fsc-item-path-value="demo-product-2" data-fsc-action="Add">Add To Cart</button></p>
+	</div>
+		
+	<div>
+		<span data-fsc-item-path="demo-product-3" data-fsc-item-display></span>
+		<br />
+		<span data-fsc-item-path="demo-product-3" data-fsc-item-price></span>
+
+		<p><button data-fsc-item-path-value="demo-product-3" data-fsc-action="Add">Add To Cart</button></p>
+	</div>
+		
+	<div>
+		<span data-fsc-item-path="demo-product-4" data-fsc-item-display></span>
+		<br />
+		<span data-fsc-item-path="demo-product-4" data-fsc-item-price></span>
+
+		<p><button data-fsc-item-path-value="demo-product-4" data-fsc-action="Add">Add To Cart</button></p>
+
+	</div>
+	</div>
 	
 	<h2>Items in Cart <span id="itemsInCart">0</span></h2>
-	
+
 	<p><button onclick="buyNow();">Checkout</button></p>
 	
 	<script>
