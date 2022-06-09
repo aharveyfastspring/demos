@@ -1,0 +1,158 @@
+<html>
+
+<head>
+
+    <!-- FastSpring Header -->
+    <script id="fsc-api" src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.7/fastspring-builder.min.js"
+        type="text/javascript" data-storefront="aharvey.test.onfastspring.com/embedded-demo"
+        data-data-callback="dataCallback" data-continuous="true">
+        </script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./demo.css">
+
+    <title>FastSpring Embedded Checkout Demo</title>
+
+</head>
+
+<body>
+    <h1>FastSpring</h1>
+    <h2>Embedded Checkout Demo 2022</h2>
+
+    <div class="mainWrapper">
+        <div class="productCatalogue">
+
+            <div>
+                <span class="cartProductName" data-fsc-item-path="demo-product-1" data-fsc-item-display></span>
+                <br />
+                <span class="productPrice" data-fsc-item-path="demo-product-1" data-fsc-item-price></span>
+
+                <p><img class="productImage" data-fsc-item-path="demo-product-1" data-fsc-item-image></img></p>
+
+                <p><button class="btn-add-to-cart" data-fsc-item-path-value="demo-product-1" data-fsc-action="Add"
+                        data-fsc-item-path="demo-product-1" data-fsc-item-selection-smartdisplay-inverse>Add To
+                        Cart</button>
+                    <button class="btn-add-to-cart-remove" data-fsc-item-path-value="demo-product-1"
+                        data-fsc-action="Remove" data-fsc-item-path="demo-product-1"
+                        data-fsc-item-selection-smartdisplay>Remove From Cart</button>
+                </p>
+            </div>
+
+            <div>
+                <span class="cartProductName" data-fsc-item-path="demo-product-2" data-fsc-item-display></span>
+                <br />
+                <span class="productPrice" data-fsc-item-path="demo-product-2" data-fsc-item-price></span>
+
+                <p><img class="productImage" data-fsc-item-path="demo-product-2" data-fsc-item-image></img></p>
+
+                <p><button class="btn-add-to-cart" data-fsc-item-path-value="demo-product-2" data-fsc-action="Add"
+                        data-fsc-item-path="demo-product-2" data-fsc-item-selection-smartdisplay-inverse>Add To
+                        Cart</button>
+                    <button class="btn-add-to-cart-remove" data-fsc-item-path-value="demo-product-2"
+                        data-fsc-action="Remove" data-fsc-item-path="demo-product-2"
+                        data-fsc-item-selection-smartdisplay>Remove From Cart</button>
+                </p>
+            </div>
+
+            <div>
+                <span class="cartProductName" data-fsc-item-path="demo-product-3" data-fsc-item-display></span>
+                <br />
+                <span class="productPrice" data-fsc-item-path="demo-product-3" data-fsc-item-price></span>
+
+                <p><img class="productImage" data-fsc-item-path="demo-product-3" data-fsc-item-image></img></p>
+
+                <p><button class="btn-add-to-cart" data-fsc-item-path-value="demo-product-3" data-fsc-action="Add"
+                        data-fsc-item-path="demo-product-3" data-fsc-item-selection-smartdisplay-inverse>Add To
+                        Cart</button>
+                    <button class="btn-add-to-cart-remove" data-fsc-item-path-value="demo-product-3"
+                        data-fsc-action="Remove" data-fsc-item-path="demo-product-3"
+                        data-fsc-item-selection-smartdisplay>Remove From Cart</button>
+                </p>
+            </div>
+
+            <div>
+                <span class="cartProductName" data-fsc-item-path="demo-product-4" data-fsc-item-display></span>
+                <br />
+                <span class="productPrice" data-fsc-item-path="demo-product-4" data-fsc-item-price></span>
+
+                <p><img class="productImage" data-fsc-item-path="demo-product-4" data-fsc-item-image></img></p>
+
+                <p><button class="btn-add-to-cart" data-fsc-item-path-value="demo-product-4" data-fsc-action="Add"
+                        data-fsc-item-path="demo-product-4" data-fsc-item-selection-smartdisplay-inverse>Add To
+                        Cart</button>
+                    <button class="btn-add-to-cart-remove" data-fsc-item-path-value="demo-product-4"
+                        data-fsc-action="Remove" data-fsc-item-path="demo-product-4"
+                        data-fsc-item-selection-smartdisplay>Remove From Cart</button>
+                </p>
+
+            </div>
+        </div>
+
+        <div class="orderSummary">
+            <div class="cartIcon">
+                <i class="bi bi-cart3" style="font-size: 4rem; color: #008aff;"></i>
+                </svg>
+            </div>
+            <div class="cartCTA">
+                <h3>Items in Cart: <span id="itemsInCart">0</span></h3>
+                <p><button id="checkoutButton" class="checkoutButton" onclick="buyNow();">Review Order and
+                        Checkout</button></p>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+<script>
+
+    function buyNow() {
+        var orderSession = {
+            "paymentContact": {
+                "email": "aharvey@fastspring.com",
+                "firstName": "Adam",
+                "lastName": "Harvey"
+            },
+            "language": "en"
+        };
+
+        fastspring.builder.push(orderSession, function () { window.location = "./checkout.html"; });
+    }
+
+    function dataCallback(data) {
+
+        var numItemsInCart = 0;
+
+        if (data && data.hasOwnProperty('groups')) {
+            const {
+                groups
+            } = data;
+            groups.forEach(group => {
+                if (group.items && Array.isArray(group.items)) {
+                    group.items.forEach(item => {
+
+                        if (item.selected) {
+                            numItemsInCart += parseInt(item.quantity);
+                        }
+                    });
+                }
+            });
+
+        }
+
+        document.getElementById("itemsInCart").innerHTML = numItemsInCart;
+
+        if (numItemsInCart > 0) {
+            document.getElementById("checkoutButton").disabled = false;
+        }
+        else {
+            document.getElementById("checkoutButton").disabled = true;
+        }
+    }
+
+</script>
+
+</html>

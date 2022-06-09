@@ -1,0 +1,134 @@
+<html>
+
+<head>
+
+    <!-- FastSpring Header -->
+    <script id="fsc-api" src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.7/fastspring-builder.min.js"
+        type="text/javascript" data-storefront="aharvey.test.onfastspring.com/embedded-demo"
+        data-data-callback="dataCallback" data-continuous="true">
+        </script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="./demo.css">
+
+    <title>FastSpring Embedded Checkout Demo</title>
+
+</head>
+
+<body>
+    <h1>FastSpring</h1>
+    <h2>Embedded Checkout Demo 2022</h2>
+
+    <div class="flex_container">
+        <div class="flex_item_left">
+            <div class="cartTitle"><h3>
+                <i class="bi bi-cart"></i> Order Summary
+            </h3></div>
+            <!-- Shopping Cart -->
+            <p><div id="cartContents"></div></p>
+        </div>
+        <div class="flex_item_right">
+            <div id="fsc-embedded-checkout-container"></div>
+        </div>
+    </div>
+
+</body>
+
+
+<script>
+    // Print the contents of the callback payload
+
+    function dataCallback(data) {
+
+        // Debug
+        console.log(JSON.stringify(data, null, 4));
+
+        cartContents.innerHTML = '';
+
+        // Loop over the order session to retreive and display the contents
+
+        if (data && data.hasOwnProperty('groups')) {
+            const {
+                groups
+            } = data;
+            groups.forEach(group => {
+                if (group.items && Array.isArray(group.items)) {
+                    group.items.forEach(item => {
+
+                        if (item.selected) {
+
+                            var itemPath = item.path;
+
+                            // Product name and quantity
+                            var cartItemListing = document.createElement("div");
+
+                            // Product Name
+                            var itemNameSpan = document.createElement("span");
+                            itemNameSpan.className = "cartProductName";
+                            var productName = document.createTextNode(item.display);
+                            itemNameSpan.appendChild(productName);
+
+                            // Item Quantity
+                            var itemQuantity = document.createTextNode(" x " + item.quantity);
+
+                            // Remove Item
+                            var removeItem = document.createElement("i");
+                            removeItem.className = "bi bi-x-circle remove";
+                            removeItem.onclick = function () { fastspring.builder.remove(itemPath); };
+
+                            cartItemListing.appendChild(itemNameSpan);
+                            cartItemListing.appendChild(itemQuantity);
+
+                            cartItemListing.appendChild(removeItem);
+
+                            var element = document.getElementById("cartContents");
+                            element.appendChild(cartItemListing);
+
+                            // Item total
+                            var divTag = document.createElement("div");
+                            divTag.className = "cartItemTotal";
+                            var itemTotal = document.createTextNode(item.total);
+                            divTag.appendChild(itemTotal);
+                            var element = document.getElementById("cartContents");
+                            element.appendChild(divTag);
+
+                            // New Line
+                            var brTag = document.createElement("br");
+                            var element = document.getElementById("cartContents");
+                            element.appendChild(brTag);
+
+                        }
+                    });
+                }
+            });
+
+            // Order total
+            var summaryBox = document.createElement("div");
+            summaryBox.className = "summaryBox";
+
+
+
+            var orderTotalTag = document.createElement("div");
+            orderTotalTag.className = "orderTotal";
+            var itemTotal = document.createTextNode("Order Total: " + data.total);
+            orderTotalTag.appendChild(itemTotal);
+            summaryBox.appendChild(orderTotalTag);
+
+            // Tax
+            var taxTag = document.createElement("div");
+            taxTag.className = "cartItemTotal";
+            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
+            taxTag.appendChild(taxDetails);
+            summaryBox.appendChild(taxTag);
+
+            var element = document.getElementById("cartContents");
+            element.appendChild(summaryBox);
+        }
+    }
+</script>
+
+</html>

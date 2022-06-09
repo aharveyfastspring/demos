@@ -1,0 +1,245 @@
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Regular Italic"),local("ProximaNovaRegularItalic"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaRegularItalic.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaRegularItalic.woff) format("woff");
+    font-weight:400;
+    font-style:italic;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Bold"),local("ProximaNovaBold"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaBold.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaBold.woff) format("woff");
+    font-weight:700;
+    font-style:normal;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Extra Bold"),local("ProximaNovaExtraBold"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaExtraBold.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaExtraBold.woff) format("woff");
+    font-weight:800;
+    font-style:normal;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Bold Italic"),local("ProximaNovaBoldItalic"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaBoldItalic.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaBoldItalic.woff) format("woff");
+    font-weight:700;
+    font-style:italic;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Medium"),local("ProximaNovaMedium"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaMedium.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaMedium.woff) format("woff");
+    font-weight:500;
+    font-style:normal;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Semibold"),local("ProximaNovaSemibold"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaSemibold.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaSemibold.woff) format("woff");
+    font-weight:600;
+    font-style:normal;
+    font-display:swap
+}
+@font-face{
+    font-family:proxima-nova;
+    src:local("Proxima Nova Regular"),local("ProximaNovaRegular"),url("https://fastspring.com/wp/wp-content/themes/shared_assets/fonts/ProximaNovaRegular.woff2") format("woff2"),url(/wp/wp-content/themes/shared_assets/fonts/ProximaNovaRegular.woff) format("woff");
+    font-weight:400;
+    font-style:normal;
+    font-display:swap
+}
+
+body {
+    font-family: proxima-nova,sans-serif;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
+    background-image: url("./images/page-bg.PNG");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+h1 {
+    color: #404040;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1.25;
+    color:#fc8258;
+}
+
+h3 {
+    font-weight: 800;
+    font-size: 20;
+    line-height: 1.25;
+    color:#404040;
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.productCatalogue {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10%;
+    margin-bottom: 20px; 
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #EBF6FF;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+.orderSummary {
+    align-self: center;
+    gap: 10%;
+    padding: 60px;
+    margin: 20px;
+    width: 50%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    background-image: url("./images/bg.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    border-radius: 12px;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+.productPrice {
+    color: #008aff;
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    justify-content: center;
+}
+
+
+.flex_container {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 80%;
+    gap: 10%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+
+.flex_item_left {
+    flex: 1;
+    border-radius: 25px;
+    padding: 20px;
+}
+
+.flex_item_right {
+    flex: 2;
+}
+
+span.cartProductName {
+    font-weight: bold;
+    text-align: center;
+}
+
+div.cartItemTotal {
+    color: #008aff;
+    font-size: 85%;
+}
+
+div.orderTotal {
+    font-weight: bold;
+    color: #008aff;
+    font-size: 85%;
+}
+
+.remove {
+    color: red;
+    padding-left: 4em;
+}
+
+button {
+    margin-top: 20px;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+button.btn-add-to-cart,
+button.btn-add-to-cart-remove {
+    width: 160px;
+}
+
+button.btn-add-to-cart {
+    background-color: #B0DBFF;
+    color: black;
+}
+
+button.btn-add-to-cart-remove {
+    background-color: #DDDEFD;
+    color: black;
+}
+
+button.checkoutButton {
+    background-color: #fc8258;
+    color: white;
+    width: 300px;
+    margin-top: 40px;
+}
+
+img.productImage {
+    margin: 10px;
+    margin-top: 25px;
+    max-width: 75px;
+    max-height: 75px;
+}
+
+div.cartIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.cartCTA {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+}
+
+div.cartTitle {
+    background-color: #EBF6FF;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    box-shadow: 4px 4px 0 #404040;
+    border: 2px solid #404040
+}
+
+div.summaryBox {
+    background-color: white;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
