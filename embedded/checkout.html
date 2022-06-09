@@ -25,11 +25,23 @@
 
     <div class="flex_container">
         <div class="flex_item_left">
-            <div class="cartTitle"><h3>
-                <i class="bi bi-cart"></i> Order Summary
-            </h3></div>
+            <div class="cartTitle">
+                <h3>
+                    <i class="bi bi-cart"></i> Order Summary
+                </h3>
+            </div>
             <!-- Shopping Cart -->
-            <p><div id="cartContents"></div></p>
+            <p>
+            <div id="cartContents"></div>
+            </p>
+
+            <div class="couponCode">
+            <input class="couponInput" id="couponInput" type="text" data-fsc-promocode-value  placeholder="Coupon Code"/>
+
+            <button class="applyCoupon" id="applyCoupon" data-fsc-action="Promocode">
+                Apply Coupon
+            </button>
+        </div>
         </div>
         <div class="flex_item_right">
             <div id="fsc-embedded-checkout-container"></div>
@@ -89,12 +101,41 @@
                             element.appendChild(cartItemListing);
 
                             // Item total
-                            var divTag = document.createElement("div");
-                            divTag.className = "cartItemTotal";
-                            var itemTotal = document.createTextNode(item.total);
-                            divTag.appendChild(itemTotal);
-                            var element = document.getElementById("cartContents");
-                            element.appendChild(divTag);
+
+                            if (item.discountTotalValue > 0) {
+                                // Discounted price display
+
+                                console.log("!!!! Discount");
+
+                                var discountDisplay = document.createElement("div");
+
+                                // Original amount with strikethrough
+                                var originalPriceSpan = document.createElement("span");
+                                originalPriceSpan.className = "cartItemTotalOriginalPrice";
+                                var itemTotalOriginal = document.createTextNode(item.priceTotal);
+                                originalPriceSpan.appendChild(itemTotalOriginal);
+
+                                // New amount after discount
+                                var newPriceSpan = document.createElement("span");
+                                newPriceSpan.className = "cartItemTotal";
+                                var itemTotal = document.createTextNode(item.total);
+                                newPriceSpan.appendChild(itemTotal);
+
+                                discountDisplay.appendChild(originalPriceSpan);
+                                discountDisplay.appendChild(newPriceSpan);
+
+                                var element = document.getElementById("cartContents");
+                                element.appendChild(discountDisplay);
+
+                            } else {
+                                // No discount
+                                var divTag = document.createElement("div");
+                                divTag.className = "cartItemTotal";
+                                var itemTotal = document.createTextNode(item.total);
+                                divTag.appendChild(itemTotal);
+                                var element = document.getElementById("cartContents");
+                                element.appendChild(divTag);
+                            }
 
                             // New Line
                             var brTag = document.createElement("br");
@@ -107,26 +148,87 @@
             });
 
             // Order total
-            var summaryBox = document.createElement("div");
-            summaryBox.className = "summaryBox";
+
+            if (data.discountTotalValue > 0) {
+                // Discounted Display
+
+                var summaryBox = document.createElement("div");
+                summaryBox.className = "summaryBox";
+
+                var orderTotalTag = document.createElement("div");
+
+                // Order Total Description
+                var orderTotalTitleSpan = document.createElement("span");
+                orderTotalTitleSpan.className = "orderTotal";
+                var orderTotalTitle = document.createTextNode("Order Total: ");
+                orderTotalTitleSpan.appendChild(orderTotalTitle);
+
+                // Original amount with strikethrough
+                var originalTotalSpan = document.createElement("span");
+                originalTotalSpan.className = "orderTotalOriginal";
+                var orderTotalOriginal = document.createTextNode(data.originalTotal);
+                originalTotalSpan.appendChild(orderTotalOriginal);
+
+                // New amount after discount
+                var originalTotalDiscountedSpan = document.createElement("span");
+                originalTotalDiscountedSpan.className = "orderTotal";
+                var orderTotalDiscountedAmount = document.createTextNode(" " + data.total);
+                originalTotalDiscountedSpan.appendChild(orderTotalDiscountedAmount);
+
+                summaryBox.appendChild(orderTotalTitleSpan);
+                summaryBox.appendChild(originalTotalSpan);
+                summaryBox.appendChild(originalTotalDiscountedSpan);
 
 
+                // Discount information
+                var discountPercentageTag = document.createElement("div");
+                discountPercentageTag.className = "orderTotal";
+                var discountPercentage = document.createTextNode("You save " + data.discountTotalPercent + "!");
+                discountPercentageTag.appendChild(discountPercentage);               
+                summaryBox.appendChild(discountPercentageTag);
 
-            var orderTotalTag = document.createElement("div");
-            orderTotalTag.className = "orderTotal";
-            var itemTotal = document.createTextNode("Order Total: " + data.total);
-            orderTotalTag.appendChild(itemTotal);
-            summaryBox.appendChild(orderTotalTag);
+                // Tax
+                var taxTag = document.createElement("div");
+                taxTag.className = "cartItemTotal";
+                var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
+                taxTag.appendChild(taxDetails);
+                summaryBox.appendChild(taxTag);
 
-            // Tax
-            var taxTag = document.createElement("div");
-            taxTag.className = "cartItemTotal";
-            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
-            taxTag.appendChild(taxDetails);
-            summaryBox.appendChild(taxTag);
+                var element = document.getElementById("cartContents");
+                element.appendChild(summaryBox);
 
-            var element = document.getElementById("cartContents");
-            element.appendChild(summaryBox);
+
+                // Hide coupon field
+                var couponInputField = document.getElementById("couponInput");
+                couponInputField.style.display = "none";
+
+                var couponButton = document.getElementById("applyCoupon");     
+                couponButton.style.display = "none";    
+
+
+            } else {
+                // No discount
+                var summaryBox = document.createElement("div");
+                summaryBox.className = "summaryBox";
+
+                var orderTotalTag = document.createElement("div");
+                orderTotalTag.className = "orderTotal";
+                var orderTotal = document.createTextNode("Order Total: " + data.total);
+                orderTotalTag.appendChild(orderTotal);
+                summaryBox.appendChild(orderTotalTag);
+
+                // Tax
+                var taxTag = document.createElement("div");
+                taxTag.className = "cartItemTotal";
+                var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
+                taxTag.appendChild(taxDetails);
+                summaryBox.appendChild(taxTag);
+
+                var element = document.getElementById("cartContents");
+                element.appendChild(summaryBox);
+            }
+
+
         }
     }
 </script>
