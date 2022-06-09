@@ -22,6 +22,7 @@
 <body>
     <h1>FastSpring</h1>
     <h2>Embedded Checkout Demo 2022</h2>
+    <a class="reset" href="#" onclick="resetDemo()">[Reset Demo]</a>
 
     <div class="flex_container">
         <div class="flex_item_left">
@@ -105,8 +106,6 @@
                             if (item.discountTotalValue > 0) {
                                 // Discounted price display
 
-                                console.log("!!!! Discount");
-
                                 var discountDisplay = document.createElement("div");
 
                                 // Original amount with strikethrough
@@ -118,7 +117,7 @@
                                 // New amount after discount
                                 var newPriceSpan = document.createElement("span");
                                 newPriceSpan.className = "cartItemTotal";
-                                var itemTotal = document.createTextNode(item.total);
+                                var itemTotal = document.createTextNode(" " + item.total);
                                 newPriceSpan.appendChild(itemTotal);
 
                                 discountDisplay.appendChild(originalPriceSpan);
@@ -230,6 +229,12 @@
 
 
         }
+    }
+
+    function resetDemo() {
+        // Clear the current order session and redirect back to the original page
+        fastspring.builder.reset();
+        window.location.replace("./index.html");
     }
 </script>
 
