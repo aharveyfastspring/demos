@@ -146,6 +146,7 @@ h3 {
     margin-top: 50px;
 }
 
+
 .flex_item_left {
     flex: 1;
     border-radius: 25px;
@@ -169,10 +170,11 @@ span.cartProductName {
 .cartItemTotal {
     color: #008aff;
     font-size: 85%;
+    font-weight: bold;
 }
 
 .cartItemTotalOriginalPrice {
-    color: #008aff;
+    color: #999999;
     font-size: 85%;
     text-decoration: line-through;
 
@@ -185,8 +187,7 @@ span.cartProductName {
 }
 
 .orderTotalOriginal {
-    font-weight: bold;
-    color: #008aff;
+    color: #999999;
     font-size: 85%;
     text-decoration: line-through;
 }
@@ -280,6 +281,7 @@ button.applyCoupon {
     flex: 1;
     margin-top: 0;
     background-color: white;
+    box-shadow: 4px 4px 0 #404040;
 }
 
 a.reset {
