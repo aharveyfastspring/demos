@@ -27,8 +27,9 @@
     <div class="flex_container">
         <div class="flex_item_left">
             <div class="cartTitle">
-                <h3>
-                    <i class="bi bi-cart"></i> Order Summary
+                <h3> <img src="./images/shopping_cart.png" class="cartImageCheckout"></img>
+
+                    Order Summary
                 </h3>
             </div>
             <!-- Shopping Cart -->
@@ -37,12 +38,13 @@
             </p>
 
             <div class="couponCode">
-            <input class="couponInput" id="couponInput" type="text" data-fsc-promocode-value  placeholder="Coupon Code"/>
+                <input class="couponInput" id="couponInput" type="text" data-fsc-promocode-value
+                    placeholder="Coupon Code" />
 
-            <button class="applyCoupon" id="applyCoupon" data-fsc-action="Promocode">
-                Apply Coupon
-            </button>
-        </div>
+                <button class="applyCoupon" id="applyCoupon" data-fsc-action="Promocode">
+                    Apply Coupon
+                </button>
+            </div>
         </div>
         <div class="flex_item_right">
             <div id="fsc-embedded-checkout-container"></div>
@@ -183,7 +185,7 @@
                 var discountPercentageTag = document.createElement("div");
                 discountPercentageTag.className = "orderTotal";
                 var discountPercentage = document.createTextNode("You save " + data.discountTotalPercent + "!");
-                discountPercentageTag.appendChild(discountPercentage);               
+                discountPercentageTag.appendChild(discountPercentage);
                 summaryBox.appendChild(discountPercentageTag);
 
                 // Tax
@@ -201,8 +203,8 @@
                 var couponInputField = document.getElementById("couponInput");
                 couponInputField.style.display = "none";
 
-                var couponButton = document.getElementById("applyCoupon");     
-                couponButton.style.display = "none";    
+                var couponButton = document.getElementById("applyCoupon");
+                couponButton.style.display = "none";
 
 
             } else {
