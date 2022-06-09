@@ -284,3 +284,13 @@ a.reset {
     margin: 0 auto;
     display:block;
 }
+
+img.cartImage { 
+    max-width: 85px;
+    max-height: 85px;
+}
+
+img.cartImageCheckout { 
+    max-width: 60px;
+    max-height: 60px;
+}
