@@ -206,6 +206,7 @@ button {
 button.btn-add-to-cart,
 button.btn-add-to-cart-remove {
     width: 160px;
+    display: none;
 }
 
 button.btn-add-to-cart {
