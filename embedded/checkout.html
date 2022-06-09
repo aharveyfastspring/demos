@@ -22,13 +22,19 @@
 <body>
     <h1>FastSpring</h1>
     <h2>Embedded Checkout Demo 2022</h2>
+
+    <!-- Link to reset the demo -->
     <a class="reset" href="#" onclick="resetDemo()">[Reset Demo]</a>
 
+    <!-- Main page content container -->
     <div class="flex_container">
+
+        <!-- Left side of the page: order summary and review -->
         <div class="flex_item_left">
             <div class="cartTitle">
-                <h3> <img src="./images/shopping_cart.png" class="cartImageCheckout"></img>
-
+                <!-- Order Summary title bar -->
+                <h3> 
+                    <img src="./images/shopping_cart.png" class="cartImageCheckout"></img>
                     Order Summary
                 </h3>
             </div>
@@ -37,17 +43,22 @@
             <div id="cartContents"></div>
             </p>
 
+            <!-- Coupon code input fields -->
             <div class="couponCode">
                 <input class="couponInput" id="couponInput" type="text" data-fsc-promocode-value
                     placeholder="Coupon Code" />
-
                 <button class="applyCoupon" id="applyCoupon" data-fsc-action="Promocode">
                     Apply Coupon
                 </button>
             </div>
         </div>
+
+        <!-- Right side of the page - FastSpring checkout -->
         <div class="flex_item_right">
+
+            <!-- Load the FastSpring Embedded Checkout -->
             <div id="fsc-embedded-checkout-container"></div>
+
         </div>
     </div>
 
@@ -55,17 +66,16 @@
 
 
 <script>
-    // Print the contents of the callback payload
 
     function dataCallback(data) {
 
-        // Debug
-        console.log(JSON.stringify(data, null, 4));
+        /* This function is called every time there is a callback from the FastSpring server.
+        The callback contains a JSON payload - data - that contains all information about the current order */
 
+        // Reset and clear the cart contents area of the page
         cartContents.innerHTML = '';
 
         // Loop over the order session to retreive and display the contents
-
         if (data && data.hasOwnProperty('groups')) {
             const {
                 groups
@@ -95,13 +105,13 @@
                             removeItem.className = "bi bi-x-circle remove";
                             removeItem.onclick = function () { fastspring.builder.remove(itemPath); };
 
+                            // Write these details to the DOM
                             cartItemListing.appendChild(itemNameSpan);
                             cartItemListing.appendChild(itemQuantity);
-
                             cartItemListing.appendChild(removeItem);
 
-                            var element = document.getElementById("cartContents");
-                            element.appendChild(cartItemListing);
+                            var cartContentsElement = document.getElementById("cartContents");
+                            cartContentsElement.appendChild(cartItemListing);
 
                             // Item total
 
@@ -125,23 +135,23 @@
                                 discountDisplay.appendChild(originalPriceSpan);
                                 discountDisplay.appendChild(newPriceSpan);
 
-                                var element = document.getElementById("cartContents");
-                                element.appendChild(discountDisplay);
+                                var cartContentsElement = document.getElementById("cartContents");
+                                cartContentsElement.appendChild(discountDisplay);
 
                             } else {
                                 // No discount
-                                var divTag = document.createElement("div");
-                                divTag.className = "cartItemTotal";
+                                var itemTotalTag = document.createElement("div");
+                                itemTotalTag.className = "cartItemTotal";
                                 var itemTotal = document.createTextNode(item.total);
-                                divTag.appendChild(itemTotal);
-                                var element = document.getElementById("cartContents");
-                                element.appendChild(divTag);
+                                itemTotalTag.appendChild(itemTotal);
+                                var cartContentsElement = document.getElementById("cartContents");
+                                cartContentsElement.appendChild(itemTotalTag);
                             }
 
                             // New Line
                             var brTag = document.createElement("br");
-                            var element = document.getElementById("cartContents");
-                            element.appendChild(brTag);
+                            var cartContentsElement = document.getElementById("cartContents");
+                            cartContentsElement.appendChild(brTag);
 
                         }
                     });
@@ -195,8 +205,8 @@
                 taxTag.appendChild(taxDetails);
                 summaryBox.appendChild(taxTag);
 
-                var element = document.getElementById("cartContents");
-                element.appendChild(summaryBox);
+                var cartContentsElement = document.getElementById("cartContents");
+                cartContentsElement.appendChild(summaryBox);
 
 
                 // Hide coupon field
@@ -225,8 +235,8 @@
                 taxTag.appendChild(taxDetails);
                 summaryBox.appendChild(taxTag);
 
-                var element = document.getElementById("cartContents");
-                element.appendChild(summaryBox);
+                var cartContentsElement = document.getElementById("cartContents");
+                elemcartContentsElementent.appendChild(summaryBox);
             }
 
 
