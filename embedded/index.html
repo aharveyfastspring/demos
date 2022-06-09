@@ -5,7 +5,9 @@
     <!-- FastSpring Header -->
     <script id="fsc-api" src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.7/fastspring-builder.min.js"
         type="text/javascript" data-storefront="aharvey.test.onfastspring.com/embedded-demo"
-        data-data-callback="dataCallback" data-continuous="true">
+        data-data-callback="dataCallback" data-continuous="true"
+        data-before-requests-callback="beforeRequestsCallbackFunction"
+        data-after-markup-callback="afterMarkupCallbackFunction">
         </script>
 
     <!-- Bootstrap -->
@@ -103,6 +105,14 @@
             </div>
         </div>
     </div>
+
+    <!--
+		Spinner to display action taking place.
+		-->
+    <div id="fastspring_spinner">
+        <img src="https://d1f8f9xcsvx3ha.cloudfront.net/pinhole/spin.svg" />
+    </div>
+
 </body>
 
 
@@ -145,13 +155,28 @@
         document.getElementById("itemsInCart").innerHTML = numItemsInCart;
 
         if (numItemsInCart > 0) {
-            document.getElementById('checkoutButton').style.opacity=1;
+            document.getElementById('checkoutButton').style.opacity = 1;
             document.getElementById("checkoutButton").disabled = false;
         }
         else {
-            document.getElementById('checkoutButton').style.opacity=0.5;
+            document.getElementById('checkoutButton').style.opacity = 0.5;
             document.getElementById("checkoutButton").disabled = true;
         }
+    }
+
+
+    function beforeRequestsCallbackFunction() {
+        var fsb_spinner = document.getElementById("fastspring_spinner");
+        fsb_spinner.style.display = "block";
+    }
+
+    function afterMarkupCallbackFunction() {
+        var fsb_spinner = document.getElementById("fastspring_spinner");
+        fsb_spinner.style.animationName = "fsb-revfadeIn";
+        setTimeout(function () {
+            fsb_spinner.style.animationName = "fsb-fadeIn";
+            fsb_spinner.style.display = "none";
+        }, 450);
     }
 
 </script>
