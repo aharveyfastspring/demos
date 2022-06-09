@@ -146,16 +146,19 @@ h3 {
     margin-top: 50px;
 }
 
-
 .flex_item_left {
     flex: 1;
     border-radius: 25px;
-    padding: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
 }
 
 .flex_item_right {
     flex: 1.5;
     background-color: #EBF6FF;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
 }
 
 span.cartProductName {
