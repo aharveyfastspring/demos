@@ -155,6 +155,7 @@ h3 {
 
 .flex_item_right {
     flex: 1.5;
+    background-color: #EBF6FF;
 }
 
 span.cartProductName {
