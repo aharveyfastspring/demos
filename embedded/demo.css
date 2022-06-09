@@ -275,3 +275,12 @@ button.applyCoupon {
     margin-top: 0;
     background-color: white;
 }
+
+a.reset {
+    font-weight: bold;
+    color: #008aff;
+    font-size: 85%;
+    text-align: center;
+    margin: 0 auto;
+    display:block;
+}
