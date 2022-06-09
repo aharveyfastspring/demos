@@ -140,7 +140,7 @@ h3 {
     display: flex;
     justify-content: center;
     align-self: center;
-    width: 80%;
+    width: 65%; 
     gap: 10%;
     margin: 0 auto;
     margin-top: 50px;
@@ -154,7 +154,7 @@ h3 {
 }
 
 .flex_item_right {
-    flex: 2;
+    flex: 1.5;
 }
 
 span.cartProductName {
@@ -231,6 +231,7 @@ div.cartTitle {
     padding-top: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
+    margin-bottom: 30px;
     box-shadow: 4px 4px 0 #404040;
     border: 2px solid #404040
 }
