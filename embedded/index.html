@@ -145,9 +145,11 @@
         document.getElementById("itemsInCart").innerHTML = numItemsInCart;
 
         if (numItemsInCart > 0) {
+            document.getElementById('checkoutButton').style.opacity=1;
             document.getElementById("checkoutButton").disabled = false;
         }
         else {
+            document.getElementById('checkoutButton').style.opacity=0.5;
             document.getElementById("checkoutButton").disabled = true;
         }
     }
