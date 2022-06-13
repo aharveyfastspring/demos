@@ -188,6 +188,16 @@ button {
     box-shadow: 4px 4px 0 #404040;
 }
 
+div.quantityAdd {
+    display:flex;
+}
+
+div.quantityAddCol {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
 button,
 input,
 optgroup,
