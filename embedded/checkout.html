@@ -107,20 +107,63 @@
                             itemNameSpan.appendChild(productName);
 
                             // Item Quantity
-                            var itemQuantity = document.createTextNode(" x " + item.quantity);
 
-                            // Remove Item
+                            var quantitySpan = document.createElement("span");
+                            quantitySpan.className = "quantity buttons_added";
+
+                            var itemQuantityID = item.path + "-quantity";
+
+                            // Decrease quantity by 1
+                            var minusButton = document.createElement("input");
+                            minusButton.id = itemQuantityID + "decrement";
+                            minusButton.type = "button";
+                            minusButton.className = "minus";
+                            minusButton.value = "-";
+
+                            // Quantity input field
+                            var itemQuantityInput = document.createElement("input");
+                            itemQuantityInput.id = itemQuantityID;
+                            itemQuantityInput.className = "input-text qty text";
+                            itemQuantityInput.size = 4;
+                            itemQuantityInput.value = item.quantity;
+
+                            // Increase quantity by 1
+                            var plusButton = document.createElement("input");
+                            plusButton.id = itemQuantityID + "increment";
+                            plusButton.type = "button";
+                            plusButton.className = "plus";
+                            plusButton.value = "+";
+
+                            quantitySpan.appendChild(minusButton);
+                            quantitySpan.appendChild(itemQuantityInput);
+                            quantitySpan.appendChild(plusButton);
+
+                            // Remove item from order button
                             var removeItem = document.createElement("i");
                             removeItem.className = "bi bi-x-circle remove";
                             removeItem.onclick = function () { fastspring.builder.remove(itemPath); };
 
-                            // Write these details to the DOM
+                            // Write these details to the DOM∂
                             cartItemListing.appendChild(itemNameSpan);
-                            cartItemListing.appendChild(itemQuantity);
+                            cartItemListing.appendChild(quantitySpan);
                             cartItemListing.appendChild(removeItem);
 
                             var cartContentsElement = document.getElementById("cartContents");
                             cartContentsElement.appendChild(cartItemListing);
+
+
+                            // Add event listeners for quantity selection
+                            document.getElementById(itemQuantityID).addEventListener("change", function () {
+                                fastspring.builder.update(item.path, document.getElementById(itemQuantityID).value);
+                            });
+
+                            document.getElementById(itemQuantityID + "increment").addEventListener("click", function () {
+                                fastspring.builder.update(item.path, parseInt(document.getElementById(itemQuantityID).value) + 1);
+                            });
+
+                            document.getElementById(itemQuantityID + "decrement").addEventListener("click", function () {
+                                fastspring.builder.update(item.path, parseInt(document.getElementById(itemQuantityID).value) - 1);
+                            });
 
                             // Item total
 
