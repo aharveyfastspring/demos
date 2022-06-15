@@ -119,8 +119,8 @@ h3 {
     display: flex;
     justify-content: center;
     align-self: center;
-    width: 65%;
-    gap: 10%;
+    width: 75%;
+    gap: 5%;
     margin: 0 auto;
     margin-top: 50px;
 }
