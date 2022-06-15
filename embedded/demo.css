@@ -270,9 +270,9 @@ div.cartTitle {
     border: 2px solid #404040
 }
 
-/* div.checkoutTitle {
-    
-} */
+ div.checkoutTitle {
+   text-align: center; 
+}
 
 
 div.summaryBox {
