@@ -1,442 +1,501 @@
-<html>
-
-<head>
-
-    <!-- FastSpring Header -->
-    <script id="fsc-api" src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.7/fastspring-builder.min.js"
-        type="text/javascript" data-storefront="aharvey.test.onfastspring.com/embedded-demo"
-        data-data-callback="dataCallback" data-continuous="true"
-        data-before-requests-callback="beforeRequestsCallbackFunction"
-        data-after-markup-callback="afterMarkupCallbackFunction" data-debug=true>
-        </script>
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
-    <!-- CSS -->
-    <link rel="stylesheet" href="./demo.css">
-
-    <title>FastSpring Embedded Checkout Demo</title>
-
-</head>
-
-<body>
-    <h1>FastSpring</h1>
-    <h2>Embedded Checkout Demo 2022</h2>
-
-    <!-- Collapsible header with testing information -->
-    <div class="demo-header">
-        <div class="demo-header-row">
-            <a href="#" class="collapsible">Click here for demo information</a>
-        </div>
-        <div class="demo-header-collapsible" id="demo-header-collapsible">
-            <div class="demo-header-col">
-                <div class="demo-header-item">Card Number: <span class="testdetails">4242 4242 4242 4242</span></div>
-                <div class="break"></div>
-                <div class="demo-header-item">Expiry Date: <span class="testdetails">Any date in the future</span></div>
-                <div class="break"></div>
-                <div class="demo-header-item">CVV: <span class="testdetails">*HFBB</span></div>
-                <div class="break"></div>
-                <div class="demo-header-item">Coupon Code: <span class="testdetails">20OFF</span></div>
-                <div class="break"></div>
-                <!-- Link to reset the demo -->
-                <div class="demo-header-item"><a class="reset" href="#" onclick="resetDemo()">[Reset Demo]</a></div>
-            </div>
-            <div class="demo-header-col"> <img src="./images/info.png" class="infoImage"></img></div>
-        </div>
-    </div>
-
-    <!-- Main page content container -->
-    <div class="flex_container">
-
-        <!-- Left side of the page: order summary and review -->
-        <div class="flex_item_left">
-            <div class="cartTitle">
-                <!-- Order Summary title bar -->
-                <h3>
-                    <img src="./images/shopping_cart.png" class="cartImageCheckout"></img>
-                    Order Summary
-                </h3>
-            </div>
-            <!-- Shopping Cart -->
-            <p>
-            <div id="cartContents"></div>
-            </p>
-
-            <!-- Coupon code input fields -->
-            <div class="couponCode">
-                <input class="couponInput" id="couponInput" type="text" data-fsc-promocode-value
-                    placeholder="Coupon Code" />
-                <button class="applyCoupon" id="applyCoupon" data-fsc-action="Promocode">
-                    Apply Coupon
-                </button>
-            </div>
-        </div>
-
-        <!-- Right side of the page - FastSpring checkout -->
-        <div class="flex_item_right">
-            <div class="checkoutTitle">
-                <!-- Checkout title bar -->
-                <h3>
-                    <img src="./images/checkout.png" class="cartImageCheckout"></img>
-                    Checkout
-                </h3>
-            </div>
-            <!-- Load the FastSpring Embedded Checkout -->
-            <div id="fsc-embedded-checkout-container"></div>
-
-        </div>
-    </div>
-
-    <!--
-		Spinner to display action taking place.
-		-->
-    <div id="fastspring_spinner">
-        <img src="https://d1f8f9xcsvx3ha.cloudfront.net/pinhole/spin.svg" />
-    </div>
-
-</body>
-
-
-<script>
-
-    // Collapisble header script
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var content = document.getElementById("demo-header-collapsible");
-            if (content.style.maxHeight) {
-                content.style.marginTop = "0px";
-                content.style.maxHeight = null;
-            } else {
-                content.style.marginTop = "20px";
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-
-    function dataCallback(data) {
-
-        console.log(data);
-
-        /* This function is called every time there is a callback from the FastSpring server.
-        The callback contains a JSON payload - data - that contains all information about the current order */
-
-        // Reset and clear the cart contents area of the page
-        cartContents.innerHTML = '';
-
-        // Loop over the order session to retreive and display the contents
-        if (data && data.hasOwnProperty('groups')) {
-            const {
-                groups
-            } = data;
-
-            groups.forEach(group => {
-                if (group.items && Array.isArray(group.items)) {
-                    group.items.forEach(item => {
-
-                        if (item.selected) {
-
-                            var itemPath = item.path;
-
-                            // Product name and quantity
-                            var cartItemListing = document.createElement("div");
-                            cartItemListing.className = "cartItemListing";
-
-                            // Product Name
-                            var itemNameSpan = document.createElement("span");
-                            itemNameSpan.className = "cartProductName";
-                            var productName = document.createTextNode(item.display);
-                            itemNameSpan.appendChild(productName);
-
-                            // Item Quantity
-                            var quantitySpan = document.createElement("span");
-                            quantitySpan.className = "quantity buttons_added";
-
-                            var itemQuantityID = item.path + "-quantity";
-
-                            // Decrease quantity by 1
-                            var minusButton = document.createElement("input");
-                            minusButton.id = itemQuantityID + "decrement";
-                            minusButton.type = "button";
-                            minusButton.className = "minus";
-                            minusButton.value = "-";
-
-                            // Quantity input field
-                            var itemQuantityInput = document.createElement("input");
-                            itemQuantityInput.id = itemQuantityID;
-                            itemQuantityInput.className = "input-text qty text";
-                            itemQuantityInput.size = 4;
-                            itemQuantityInput.value = item.quantity;
-
-                            // Increase quantity by 1
-                            var plusButton = document.createElement("input");
-                            plusButton.id = itemQuantityID + "increment";
-                            plusButton.type = "button";
-                            plusButton.className = "plus";
-                            plusButton.value = "+";
-
-                            quantitySpan.appendChild(minusButton);
-                            quantitySpan.appendChild(itemQuantityInput);
-                            quantitySpan.appendChild(plusButton);
-
-                            // Remove item from order button
-                            var removeItem = document.createElement("i");
-                            removeItem.className = "bi bi-x-circle remove";
-                            removeItem.onclick = function () { fastspring.builder.remove(itemPath); };
-
-                            // Write these details to the DOM∂
-                            cartItemListing.appendChild(itemNameSpan);
-                            cartItemListing.appendChild(quantitySpan);
-                            cartItemListing.appendChild(removeItem);
-
-                            var cartContentsElement = document.getElementById("cartContents");
-                            cartContentsElement.appendChild(cartItemListing);
-
-
-                            // Add event listeners for quantity selection
-                            document.getElementById(itemQuantityID).addEventListener("change", function () {
-                                fastspring.builder.update(item.path, document.getElementById(itemQuantityID).value);
-                            });
-
-                            document.getElementById(itemQuantityID + "increment").addEventListener("click", function () {
-                                fastspring.builder.update(item.path, parseInt(document.getElementById(itemQuantityID).value) + 1);
-                            });
-
-                            document.getElementById(itemQuantityID + "decrement").addEventListener("click", function () {
-                                fastspring.builder.update(item.path, parseInt(document.getElementById(itemQuantityID).value) - 1);
-                            });
-
-                            // Item total
-
-                            if (item.discountTotalValue > 0) {
-                                // Discounted price display
-
-                                var discountDisplay = document.createElement("div");
-
-                                // Original amount with strikethrough
-                                var originalPriceSpan = document.createElement("span");
-                                originalPriceSpan.className = "cartItemTotalOriginalPrice";
-                                var itemTotalOriginal = document.createTextNode(item.priceTotal);
-                                originalPriceSpan.appendChild(itemTotalOriginal);
-
-                                // New amount after discount
-                                var newPriceSpan = document.createElement("span");
-                                newPriceSpan.className = "cartItemTotal";
-                                var itemTotal = document.createTextNode(" " + item.total);
-                                newPriceSpan.appendChild(itemTotal);
-
-                                discountDisplay.appendChild(originalPriceSpan);
-                                discountDisplay.appendChild(newPriceSpan);
-
-                                var cartContentsElement = document.getElementById("cartContents");
-                                cartContentsElement.appendChild(discountDisplay);
-
-                            } else {
-                                // No discount
-                                var itemTotalTag = document.createElement("div");
-                                itemTotalTag.className = "cartItemTotal";
-                                var itemTotal = document.createTextNode(item.total);
-                                itemTotalTag.appendChild(itemTotal);
-                                var cartContentsElement = document.getElementById("cartContents");
-                                cartContentsElement.appendChild(itemTotalTag);
-                            }
-
-                            // New Line
-                            var brTag = document.createElement("br");
-                            var cartContentsElement = document.getElementById("cartContents");
-                            cartContentsElement.appendChild(brTag);
-
-
-
-                            // Cross-sells
-                            groups.forEach(group => {
-                                if ((group.driverType === "product") && (group.driver === item.path) && group.selectables) {
-
-                                    var productOfferBox = document.createElement("div");
-                                    productOfferBox.className = "productOffers";
-
-
-                                    var productOfferWrapper = document.createElement("div");
-                                    productOfferWrapper.className = "productOfferWrapper";
-
-                                    var productOfferTitleRow = document.createElement("div");
-                                    productOfferTitleRow.className = "productOfferTitleRow";
-
-                                    var productOfferTitle = document.createTextNode(group.display);
-                                    productOfferTitleRow.appendChild(productOfferTitle);
-
-                                    productOfferWrapper.appendChild(productOfferTitleRow);
-
-
-                                    if (group.items && Array.isArray(group.items)) {
-                                        group.items.forEach(item => {
-
-                                            console.log("Item: " + item.display);
-                                            console.log("Item Selected " + item.selected);
-
-                                            if (!item.selected) {
-                                                var crossSellDiv = document.createElement("div");
-                                                crossSellDiv.className = "crossSellRow";
-
-                                                var crossSellProductNameDiv = document.createElement("div");
-                                                crossSellProductNameDiv.className = "crossSellProductName";
-
-                                                var crossSellProductName = document.createTextNode(item.display);
-                                                crossSellProductNameDiv.appendChild(crossSellProductName);
-
-                                                var crossSellProductPriceDiv = document.createElement("div");
-                                                crossSellProductPriceDiv.className = "crossSellProductPrice";
-
-                                                var crossSellProductPrice = document.createTextNode(item.total);
-                                                crossSellProductPriceDiv.appendChild(crossSellProductPrice);
-
-                                                var crossSellProductCTADiv = document.createElement("div");
-                                                crossSellProductCTADiv.className = "crossSellProductCTA";
-
-                                                var crossSellProductCTA = document.createElement("button");
-                                                crossSellProductCTA.className = "btn-add-to-cart";
-                                                crossSellProductCTA.style.display = "block";
-                                                crossSellProductCTA.textContent = "Add to order";
-                                                crossSellProductCTA.onclick = function () { fastspring.builder.add(item.path); }
-
-                                                crossSellProductCTADiv.appendChild(crossSellProductCTA);
-
-                                                crossSellDiv.appendChild(crossSellProductNameDiv);
-                                                crossSellDiv.appendChild(crossSellProductPriceDiv);
-                                                crossSellDiv.appendChild(crossSellProductCTADiv);
-
-                                                productOfferWrapper.appendChild(crossSellDiv);
-                                            }
-
-                                        })
-                                    }
-
-                                    productOfferBox.appendChild(productOfferWrapper);
-
-                                    var cartContentsElement = document.getElementById("cartContents");
-                                    cartContentsElement.appendChild(productOfferBox);
-
-                                    // New Line
-                                    var brTag = document.createElement("br");
-                                    var cartContentsElement = document.getElementById("cartContents");
-                                    cartContentsElement.appendChild(brTag);
-
-
-                                }
-                            })
-                        }
-                    });
-                }
-
-            });
-        }
-
-        // Order total
-
-
-        if (data.discountTotalValue > 0) {
-            // Discounted Display
-
-            var summaryBox = document.createElement("div");
-            summaryBox.className = "summaryBox";
-
-            var orderTotalTag = document.createElement("div");
-
-            // Order Total Description
-            var orderTotalTitleSpan = document.createElement("span");
-            orderTotalTitleSpan.className = "orderTotal";
-            var orderTotalTitle = document.createTextNode("Order Total: ");
-            orderTotalTitleSpan.appendChild(orderTotalTitle);
-
-            // Original amount with strikethrough
-            var originalTotalSpan = document.createElement("span");
-            originalTotalSpan.className = "orderTotalOriginal";
-            var orderTotalOriginal = document.createTextNode(data.originalTotal);
-            originalTotalSpan.appendChild(orderTotalOriginal);
-
-            // New amount after discount
-            var originalTotalDiscountedSpan = document.createElement("span");
-            originalTotalDiscountedSpan.className = "orderTotal";
-            var orderTotalDiscountedAmount = document.createTextNode(" " + data.total);
-            originalTotalDiscountedSpan.appendChild(orderTotalDiscountedAmount);
-
-            summaryBox.appendChild(orderTotalTitleSpan);
-            summaryBox.appendChild(originalTotalSpan);
-            summaryBox.appendChild(originalTotalDiscountedSpan);
-
-
-            // Discount information
-            var discountPercentageTag = document.createElement("div");
-            discountPercentageTag.className = "discountSavings";
-            var discountPercentage = document.createTextNode("You save " + data.discountTotalPercent + "!");
-            discountPercentageTag.appendChild(discountPercentage);
-            summaryBox.appendChild(discountPercentageTag);
-
-            // Tax
-            var taxTag = document.createElement("div");
-            taxTag.className = "cartItemTotal";
-            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
-            taxTag.appendChild(taxDetails);
-            summaryBox.appendChild(taxTag);
-
-            var cartContentsElement = document.getElementById("cartContents");
-            cartContentsElement.appendChild(summaryBox);
-
-
-            // Hide coupon field
-            var couponInputField = document.getElementById("couponInput");
-            couponInputField.style.display = "none";
-
-            var couponButton = document.getElementById("applyCoupon");
-            couponButton.style.display = "none";
-
-
-        } else {
-            // No discount
-            var summaryBox = document.createElement("div");
-            summaryBox.className = "summaryBox";
-
-            var orderTotalTag = document.createElement("div");
-            orderTotalTag.className = "orderTotal";
-            var orderTotal = document.createTextNode("Order Total: " + data.total);
-            orderTotalTag.appendChild(orderTotal);
-            summaryBox.appendChild(orderTotalTag);
-
-            // Tax
-            var taxTag = document.createElement("div");
-            taxTag.className = "cartItemTotal";
-            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
-            taxTag.appendChild(taxDetails);
-            summaryBox.appendChild(taxTag);
-
-            var cartContentsElement = document.getElementById("cartContents");
-            cartContentsElement.appendChild(summaryBox);
-        }
-    }
-
-    function resetDemo() {
-        // Clear the current order session and redirect back to the original page
-        fastspring.builder.reset();
-        window.location.replace("./index.html");
-    }
-
-    function beforeRequestsCallbackFunction() {
-        var fsb_spinner = document.getElementById("fastspring_spinner");
-        fsb_spinner.style.display = "block";
-    }
-
-    function afterMarkupCallbackFunction() {
-        var fsb_spinner = document.getElementById("fastspring_spinner");
-        fsb_spinner.style.animationName = "fsb-revfadeIn";
-        setTimeout(function () {
-            fsb_spinner.style.animationName = "fsb-fadeIn";
-            fsb_spinner.style.display = "none";
-        }, 450);
-    }
-
-</script>
-
-</html>
+#fastspring_spinner {
+    width: 100%;
+    height: 100%;
+    z-index: 99999998;
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#fastspring_spinner img {
+    -webkit-animation-duration: .4s;
+    animation-duration: .4s;
+    -webkit-animation-delay: .4s;
+    animation-delay: .4s;
+    -webkit-animation-name: fsb-fadeIn;
+    animation-name: fsb-fadeIn;
+    position: fixed;
+    top: 50%;
+    margin-top: -50px;
+    left: 50%;
+    margin-left: -50px;
+    z-index: 99999999;
+}
+
+
+body {
+    font-family: proxima-nova, sans-serif;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: white;
+    background-image: url("./images/page-bg.PNG");
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+h1 {
+    color: #404040;
+    font-weight: 800;
+    font-size: 60px;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+h2 {
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 1.25;
+    color: #fc8258;
+}
+
+h3 {
+    font-weight: 800;
+    font-size: 20;
+    line-height: 1.25;
+    color: #404040;
+}
+
+.mainWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.productCatalogue {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 10%;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #EBF6FF;
+    width: 100%;
+    flex-wrap: wrap;
+
+}
+
+.orderSummary {
+    align-self: center;
+    gap: 10%;
+    padding: 60px;
+    margin: 20px;
+    width: 50%;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+    background-image: url("./images/bg.png");
+    background-repeat: no-repeat;
+    background-position: right;
+    border-radius: 12px;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+.productPrice {
+    color: #008aff;
+    display: flex;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    justify-content: left;
+}
+
+
+.flex_container {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 65%;
+    gap: 10%;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+
+.flex_item_left {
+    flex: 1;
+    border-radius: 25px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.flex_item_right {
+    flex: 1.5;
+    background-color: #EBF6FF;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+span.cartProductName {
+    font-weight: bold;
+    flex: 1;
+    flex-direction: row;
+}
+
+.cartItemTotal {
+    color: #008aff;
+    font-size: 85%;
+    font-weight: bold;
+}
+
+.cartItemTotalOriginalPrice {
+    color: #999999;
+    font-size: 85%;
+    text-decoration: line-through;
+
+}
+
+.orderTotal {
+    font-weight: bold;
+    color: #008aff;
+    font-size: 85%;
+}
+
+.orderTotalOriginal {
+    color: #999999;
+    font-size: 85%;
+    text-decoration: line-through;
+}
+
+.discountSavings {
+    font-weight: bold;
+    color: #3A3AA3;
+    font-size: 85%;
+}
+
+.remove {
+    color: red;
+    flex: 0;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+button {
+    margin-top: 20px;
+    border-radius: 6px;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+div.quantityAdd {
+    display: flex;
+}
+
+div.quantityAddCol {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+button.btn-add-to-cart,
+button.btn-add-to-cart-remove {
+    width: 160px;
+    display: none;
+}
+
+button.btn-add-to-cart {
+    background-color: #B0DBFF;
+    color: black;
+}
+
+button.btn-add-to-cart-remove {
+    background-color: #DDDEFD;
+    color: black;
+}
+
+button.checkoutButton {
+    background-color: #fc8258;
+    color: white;
+    width: 300px;
+    margin-top: 40px;
+}
+
+img.productImage {
+    margin: 10px;
+    margin-top: 25px;
+    max-width: 75px;
+    max-height: 75px;
+}
+
+div.cartIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.cartCTA {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+}
+
+div.cartTitle, div.checkoutTitle {
+    background-color: #EBF6FF;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+
+}
+
+div.cartTitle {
+    margin-bottom: 30px;
+    box-shadow: 4px 4px 0 #404040;
+    border: 2px solid #404040
+}
+
+ div.checkoutTitle {
+   text-align: center; 
+}
+
+
+div.summaryBox {
+    background-color: white;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+div.couponCode {
+    display: flex;
+}
+
+input.couponInput {
+    flex: 2;
+    margin-right: 20px;
+    width: auto;
+    padding-left: 20px;
+    height: 40px;
+    border: 2px solid #404040;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+button.applyCoupon {
+    flex: 1;
+    margin-top: 0;
+    background-color: white;
+    box-shadow: 4px 4px 0 #404040;
+}
+
+.collapsible {
+    font-weight: bold;
+    color: #008aff;
+    display: flex;
+    width: max-content;
+    align-items: center;
+    margin: auto;
+}
+
+div.demo-header {
+    font-weight: bold;
+    color: #008aff;
+    margin: auto;
+    display: flex;
+    flex-flow: row wrap;
+    width: max-content;
+    background-color: #EBF6FF;
+    padding: 20px;
+    justify-content: center;
+}
+
+div.demo-header-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+div.demo-header-collapsible {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    display: flex;
+}
+
+div.demo-header-col {
+    width: fit-content;
+    align-items: center;
+    font-size: 75%;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+div.demo-header-item {
+    width: fit-content;
+    margin-right: 10px;
+}
+
+.testdetails {
+    font-weight: normal;
+    color: #fc8258;
+}
+
+a.reset {
+    font-weight: bold;
+    color: #008aff;
+    text-align: left;
+    margin: 0 auto;
+    display: block;
+}
+
+img.cartImage {
+    max-width: 85px;
+    max-height: 85px;
+}
+
+
+img.infoImage {
+    max-width: 60px;
+    max-height: 60px;
+    margin-left: 20px;
+    margin-top: 15px;
+}
+
+img.cartImageCheckout {
+    max-width: 60px;
+    max-height: 60px;
+}
+
+img,
+svg {
+    vertical-align: middle;
+}
+
+
+.productOffers {
+    background: #F2F8FD;
+    font-size: 85%;
+    padding: 10px;
+    margin-left: 20px;
+}
+
+.productOfferWrapper {
+    display: flex;
+    flex-flow: column nowrap;
+    padding-bottom: 10px;
+}
+
+.productOfferTitleRow {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 100%;
+    font-weight: 800;
+}
+
+.crossSellRow {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.crossSellProductName {
+    flex: 1;
+    color: #008aff;
+    padding-right: 10px;
+}
+
+.crossSellProductPrice {
+    flex: 1;
+}
+
+.crossSellProductCTA {
+    flex: 1;
+    margin-right: 10px; 
+}
+
+
+.cartItemListing { 
+     display: flex;
+}
+
+/* -- quantity box -- */
+
+.quantity {
+    display: inline-block;
+}
+
+.quantity .input-text.qty {
+    width: 35px;
+    height: 35px;
+    padding: 0 5px;
+    text-align: center;
+    background-color: transparent;
+    border: 2px solid #404040;
+}
+
+.quantity.buttons_added {
+    text-align: left;
+    position: relative;
+    white-space: nowrap;
+    vertical-align: top;
+    max-width: fit-content;
+    flex: 1;
+    flex-direction: row;
+    margin-right: 20px;
+}
+
+.quantity.buttons_added input {
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    box-shadow: none;
+}
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
+    padding: 2px 10px 8px;
+    height: 35px;
+    background-color: #ffffff;
+    border: 2px solid #404040;
+    cursor: pointer;
+}
+
+.quantity.buttons_added .minus {
+    border-right: 0;
+}
+
+.quantity.buttons_added .plus {
+    border-left: 0;
+}
+
+.quantity.buttons_added .minus:hover,
+.quantity.buttons_added .plus:hover {
+    background: #fc8258;
+}
+
+
+.quantity.buttons_added .minus:focus,
+.quantity.buttons_added .plus:focus {
+    outline: none;
+}
