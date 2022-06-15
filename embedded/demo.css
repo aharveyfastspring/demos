@@ -182,6 +182,8 @@ span.cartProductName {
     color: red;
     flex: 0;
     flex-direction: row;
+    padding-top: 10px;
+    padding-right: 10px;
 }
 
 button {
