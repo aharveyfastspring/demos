@@ -7,7 +7,7 @@
         type="text/javascript" data-storefront="aharvey.test.onfastspring.com/embedded-demo"
         data-data-callback="dataCallback" data-continuous="true"
         data-before-requests-callback="beforeRequestsCallbackFunction"
-        data-after-markup-callback="afterMarkupCallbackFunction">
+        data-after-markup-callback="afterMarkupCallbackFunction" data-debug=true>
         </script>
 
     <!-- Bootstrap -->
@@ -23,6 +23,7 @@
     <h1>FastSpring</h1>
     <h2>Embedded Checkout Demo 2022</h2>
 
+    <!-- Collapsible header with testing information -->
     <div class="demo-header">
         <div class="demo-header-row">
             <a href="#" class="collapsible">Click here for demo information</a>
@@ -92,6 +93,7 @@
 
 <script>
 
+    // Collapisble header script
     var coll = document.getElementsByClassName("collapsible");
     var i;
 
@@ -111,6 +113,8 @@
 
     function dataCallback(data) {
 
+        console.log(data);
+
         /* This function is called every time there is a callback from the FastSpring server.
         The callback contains a JSON payload - data - that contains all information about the current order */
 
@@ -122,6 +126,7 @@
             const {
                 groups
             } = data;
+
             groups.forEach(group => {
                 if (group.items && Array.isArray(group.items)) {
                     group.items.forEach(item => {
@@ -132,6 +137,7 @@
 
                             // Product name and quantity
                             var cartItemListing = document.createElement("div");
+                            cartItemListing.className = "cartItemListing";
 
                             // Product Name
                             var itemNameSpan = document.createElement("span");
@@ -140,7 +146,6 @@
                             itemNameSpan.appendChild(productName);
 
                             // Item Quantity
-
                             var quantitySpan = document.createElement("span");
                             quantitySpan.className = "quantity buttons_added";
 
@@ -238,93 +243,171 @@
                             var cartContentsElement = document.getElementById("cartContents");
                             cartContentsElement.appendChild(brTag);
 
+
+
+                            // Cross-sells
+                            groups.forEach(group => {
+                                if ((group.driverType === "product") && (group.driver === item.path) && group.selectables) {
+
+                                    var productOfferBox = document.createElement("div");
+                                    productOfferBox.className = "productOffers";
+
+
+                                    var productOfferWrapper = document.createElement("div");
+                                    productOfferWrapper.className = "productOfferWrapper";
+
+                                    var productOfferTitleRow = document.createElement("div");
+                                    productOfferTitleRow.className = "productOfferTitleRow";
+
+                                    var productOfferTitle = document.createTextNode(group.display);
+                                    productOfferTitleRow.appendChild(productOfferTitle);
+
+                                    productOfferWrapper.appendChild(productOfferTitleRow);
+
+
+                                    if (group.items && Array.isArray(group.items)) {
+                                        group.items.forEach(item => {
+
+                                            console.log("Item: " + item.display);
+                                            console.log("Item Selected " + item.selected);
+
+                                            if (!item.selected) {
+                                                var crossSellDiv = document.createElement("div");
+                                                crossSellDiv.className = "crossSellRow";
+
+                                                var crossSellProductNameDiv = document.createElement("div");
+                                                crossSellProductNameDiv.className = "crossSellProductName";
+
+                                                var crossSellProductName = document.createTextNode(item.display);
+                                                crossSellProductNameDiv.appendChild(crossSellProductName);
+
+                                                var crossSellProductPriceDiv = document.createElement("div");
+                                                crossSellProductPriceDiv.className = "crossSellProductPrice";
+
+                                                var crossSellProductPrice = document.createTextNode(item.total);
+                                                crossSellProductPriceDiv.appendChild(crossSellProductPrice);
+
+                                                var crossSellProductCTADiv = document.createElement("div");
+                                                crossSellProductCTADiv.className = "crossSellProductCTA";
+
+                                                var crossSellProductCTA = document.createElement("button");
+                                                crossSellProductCTA.className = "btn-add-to-cart";
+                                                crossSellProductCTA.style.display = "block";
+                                                crossSellProductCTA.textContent = "Add to order";
+                                                crossSellProductCTA.onclick = function () { fastspring.builder.add(item.path); }
+
+                                                crossSellProductCTADiv.appendChild(crossSellProductCTA);
+
+                                                crossSellDiv.appendChild(crossSellProductNameDiv);
+                                                crossSellDiv.appendChild(crossSellProductPriceDiv);
+                                                crossSellDiv.appendChild(crossSellProductCTADiv);
+
+                                                productOfferWrapper.appendChild(crossSellDiv);
+                                            }
+
+                                        })
+                                    }
+
+                                    productOfferBox.appendChild(productOfferWrapper);
+
+                                    var cartContentsElement = document.getElementById("cartContents");
+                                    cartContentsElement.appendChild(productOfferBox);
+
+                                    // New Line
+                                    var brTag = document.createElement("br");
+                                    var cartContentsElement = document.getElementById("cartContents");
+                                    cartContentsElement.appendChild(brTag);
+
+
+                                }
+                            })
                         }
                     });
                 }
+
             });
+        }
 
-            // Order total
-
-            if (data.discountTotalValue > 0) {
-                // Discounted Display
-
-                var summaryBox = document.createElement("div");
-                summaryBox.className = "summaryBox";
-
-                var orderTotalTag = document.createElement("div");
-
-                // Order Total Description
-                var orderTotalTitleSpan = document.createElement("span");
-                orderTotalTitleSpan.className = "orderTotal";
-                var orderTotalTitle = document.createTextNode("Order Total: ");
-                orderTotalTitleSpan.appendChild(orderTotalTitle);
-
-                // Original amount with strikethrough
-                var originalTotalSpan = document.createElement("span");
-                originalTotalSpan.className = "orderTotalOriginal";
-                var orderTotalOriginal = document.createTextNode(data.originalTotal);
-                originalTotalSpan.appendChild(orderTotalOriginal);
-
-                // New amount after discount
-                var originalTotalDiscountedSpan = document.createElement("span");
-                originalTotalDiscountedSpan.className = "orderTotal";
-                var orderTotalDiscountedAmount = document.createTextNode(" " + data.total);
-                originalTotalDiscountedSpan.appendChild(orderTotalDiscountedAmount);
-
-                summaryBox.appendChild(orderTotalTitleSpan);
-                summaryBox.appendChild(originalTotalSpan);
-                summaryBox.appendChild(originalTotalDiscountedSpan);
+        // Order total
 
 
-                // Discount information
-                var discountPercentageTag = document.createElement("div");
-                discountPercentageTag.className = "discountSavings";
-                var discountPercentage = document.createTextNode("You save " + data.discountTotalPercent + "!");
-                discountPercentageTag.appendChild(discountPercentage);
-                summaryBox.appendChild(discountPercentageTag);
+        if (data.discountTotalValue > 0) {
+            // Discounted Display
 
-                // Tax
-                var taxTag = document.createElement("div");
-                taxTag.className = "cartItemTotal";
-                var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
-                taxTag.appendChild(taxDetails);
-                summaryBox.appendChild(taxTag);
+            var summaryBox = document.createElement("div");
+            summaryBox.className = "summaryBox";
 
-                var cartContentsElement = document.getElementById("cartContents");
-                cartContentsElement.appendChild(summaryBox);
+            var orderTotalTag = document.createElement("div");
 
+            // Order Total Description
+            var orderTotalTitleSpan = document.createElement("span");
+            orderTotalTitleSpan.className = "orderTotal";
+            var orderTotalTitle = document.createTextNode("Order Total: ");
+            orderTotalTitleSpan.appendChild(orderTotalTitle);
 
-                // Hide coupon field
-                var couponInputField = document.getElementById("couponInput");
-                couponInputField.style.display = "none";
+            // Original amount with strikethrough
+            var originalTotalSpan = document.createElement("span");
+            originalTotalSpan.className = "orderTotalOriginal";
+            var orderTotalOriginal = document.createTextNode(data.originalTotal);
+            originalTotalSpan.appendChild(orderTotalOriginal);
 
-                var couponButton = document.getElementById("applyCoupon");
-                couponButton.style.display = "none";
+            // New amount after discount
+            var originalTotalDiscountedSpan = document.createElement("span");
+            originalTotalDiscountedSpan.className = "orderTotal";
+            var orderTotalDiscountedAmount = document.createTextNode(" " + data.total);
+            originalTotalDiscountedSpan.appendChild(orderTotalDiscountedAmount);
 
-
-            } else {
-                // No discount
-                var summaryBox = document.createElement("div");
-                summaryBox.className = "summaryBox";
-
-                var orderTotalTag = document.createElement("div");
-                orderTotalTag.className = "orderTotal";
-                var orderTotal = document.createTextNode("Order Total: " + data.total);
-                orderTotalTag.appendChild(orderTotal);
-                summaryBox.appendChild(orderTotalTag);
-
-                // Tax
-                var taxTag = document.createElement("div");
-                taxTag.className = "cartItemTotal";
-                var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
-                taxTag.appendChild(taxDetails);
-                summaryBox.appendChild(taxTag);
-
-                var cartContentsElement = document.getElementById("cartContents");
-                cartContentsElement.appendChild(summaryBox);
-            }
+            summaryBox.appendChild(orderTotalTitleSpan);
+            summaryBox.appendChild(originalTotalSpan);
+            summaryBox.appendChild(originalTotalDiscountedSpan);
 
 
+            // Discount information
+            var discountPercentageTag = document.createElement("div");
+            discountPercentageTag.className = "discountSavings";
+            var discountPercentage = document.createTextNode("You save " + data.discountTotalPercent + "!");
+            discountPercentageTag.appendChild(discountPercentage);
+            summaryBox.appendChild(discountPercentageTag);
+
+            // Tax
+            var taxTag = document.createElement("div");
+            taxTag.className = "cartItemTotal";
+            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
+            taxTag.appendChild(taxDetails);
+            summaryBox.appendChild(taxTag);
+
+            var cartContentsElement = document.getElementById("cartContents");
+            cartContentsElement.appendChild(summaryBox);
+
+
+            // Hide coupon field
+            var couponInputField = document.getElementById("couponInput");
+            couponInputField.style.display = "none";
+
+            var couponButton = document.getElementById("applyCoupon");
+            couponButton.style.display = "none";
+
+
+        } else {
+            // No discount
+            var summaryBox = document.createElement("div");
+            summaryBox.className = "summaryBox";
+
+            var orderTotalTag = document.createElement("div");
+            orderTotalTag.className = "orderTotal";
+            var orderTotal = document.createTextNode("Order Total: " + data.total);
+            orderTotalTag.appendChild(orderTotal);
+            summaryBox.appendChild(orderTotalTag);
+
+            // Tax
+            var taxTag = document.createElement("div");
+            taxTag.className = "cartItemTotal";
+            var taxDetails = document.createTextNode("Including " + data.taxType + ": " + data.tax + " (" + data.taxRate + ")");
+            taxTag.appendChild(taxDetails);
+            summaryBox.appendChild(taxTag);
+
+            var cartContentsElement = document.getElementById("cartContents");
+            cartContentsElement.appendChild(summaryBox);
         }
     }
 
