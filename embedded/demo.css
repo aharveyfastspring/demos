@@ -417,10 +417,10 @@ svg {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
+    justify-content: space-between
 }
 
 .crossSellProductName {
-    flex: 1;
     color: #008aff;
     padding-right: 10px;
 }
@@ -431,7 +431,6 @@ svg {
 }
 
 .crossSellProductCTA {
-    flex: 1;
     margin-right: 10px; 
 }
 
