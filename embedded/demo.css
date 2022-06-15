@@ -256,15 +256,24 @@ div.cartCTA {
 
 }
 
-div.cartTitle {
+div.cartTitle, div.checkoutTitle {
     background-color: #EBF6FF;
     padding-top: 20px;
     padding-left: 20px;
     padding-bottom: 20px;
+
+}
+
+div.cartTitle {
     margin-bottom: 30px;
     box-shadow: 4px 4px 0 #404040;
     border: 2px solid #404040
 }
+
+/* div.checkoutTitle {
+    
+} */
+
 
 div.summaryBox {
     background-color: white;
