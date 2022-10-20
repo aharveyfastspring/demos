@@ -1,0 +1,177 @@
+<head>
+   <!-- FastSpring header script -->
+   <script
+      id="fsc-api"
+      src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.8.9/fastspring-builder.min.js"
+      type="text/javascript"
+      data-storefront="adamdemo.test.onfastspring.com/embedded-softland"></script>
+</head>
+
+<style>
+
+body {
+   font-family: Arial, Helvetica, sans-serif;
+   margin:20px;
+   padding:20px;
+   }
+  
+img {
+   width: 150px;
+   height: 150px;
+   margin-left: 20px;
+   
+span.product-name {
+   font-weight: bold;
+   font-size: 120%;
+   }
+  
+span.price {
+   color: forestgreen;
+   font-size: 120%;
+   }
+  
+button.buyNowButton {
+   width: 125px;
+   height: 30px;
+   }
+  
+span.smalltext {
+   font-size:small;
+   color:grey;
+   }
+  
+.modal {
+   display: none; /* Hidden by default */
+   position: fixed; /* Stay in place */
+   z-index: 1; /* Sit on top */
+   left: 0;
+   top: 0;
+   width: 100%; /* Full width */
+   height: 100%; /* Full height */
+   overflow: auto; /* Enable scroll if needed */
+   background-color: rgb(0,0,0); /* Fallback color */
+   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+   }
+  
+.modal-content {
+   background-color: #fefefe;
+   margin: 15% auto; /* 15% from the top and centered */
+   padding: 15px;
+   border: 1px solid #888;
+   width: 500px;
+   border-radius: 25px;
+   }
+  
+.modal-pricing {
+   display: block;
+   text-align: center;
+   }
+  
+.close {
+   color: #aaa;
+   float: right;
+   font-size: 28px;
+   font-weight: bold;
+   }
+  
+.close:hover,
+.close:focus {
+   color: black;
+   text-decoration: none;
+   cursor: pointer;
+   }
+  
+.subtotal {
+   color: #990101;
+   font-size: 120%;
+   }
+  
+.vat {
+   padding: 10px 20px;
+   }
+  
+.vatButton {
+   color: white;
+   font-weight: bold;
+   background-color: #990101;
+   border: none;
+   padding: 10px 20px;
+   text-align: center;
+   }
+</style>
+
+<body>
+   <p>
+   <h1><span data-fsc-item-path="novapdf" data-fsc-item-display></span></h1>
+   <b>Price:</b> <span data-fsc-item-path="novapdf" data-fsc-item-priceWithoutTax></span></p>
+   <!-- Buy Now button that launches the modal popup -->
+   <p>
+      <button id="myBtn">Buy Now</button>
+   </p>
+
+   <div id="myModal" class="modal">
+     
+   <!-- Modal content -->
+   <div class="modal-content">
+     
+      <span class="close">&times;</span>
+     
+      <div class="modal-pricing">
+         <!-- Logo -->
+         <img src="https://cdn.novapdf.com/images/logo.svg" />
+        
+         <div class="subtotal"><b>Subtotal:</b> <span data-fsc-item-path="novapdf" data-fsc-item-priceWithoutTax></span></div>
+        
+         <p><b><span data-fsc-order-taxType></span>:</b> <span data-fsc-order-tax></span> (<span data-fsc-order-taxRate></span>)</p>
+        
+         <!-- VAT removal -->
+         <input class="vat" type="text" id="vatid" name="vatid"> <input type="submit" id="applyVATButton" class="vatButton" value="Apply VAT ID" onClick="applyVATID();">
+     
+     </div>
+     
+      <!-- FastSpring Checkout -->
+      <div id="fsc-embedded-checkout-container">
+        
+      </div>
+   </div>
+     
+   <script type="text/javascript">
+      // Modal JavaScript
+      // ------------------------------------
+      var modal = document.getElementById("myModal");
+      
+      // Get the button that opens the modal
+      var btn = document.getElementById("myBtn");
+      
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName("close")[0];
+      
+      // When the user clicks on the button, add the product to the order and open the modal
+      btn.onclick = function() {
+      fastspring.builder.add("novapdf");
+      modal.style.display = "block";
+      
+      }
+      
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function() {
+      modal.style.display = "none";
+      }
+      
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+      if (event.target == modal) {
+      modal.style.display = "none";
+      }
+      }
+      
+      function applyVATID() {
+      taxid = document.getElementById('vatid').value;
+      if (taxid) {
+      fastspring.builder.taxId(taxid);
+      document.getElementById('vatid').disabled = true;
+      document.getElementById('applyVATButton').disabled = true;
+      }
+      }
+   </script>
+</body>
