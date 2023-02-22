@@ -18,14 +18,14 @@
     const urlParams = new URLSearchParams(queryString);
 
     const impactRadiusClickID = urlParams.get('irclickid');
-    console.log(impactRadiusClickID);
+    console.log("Impact Radius Click ID: " + impactRadiusClickID);
 
     // Buy Now button action
     function buyNow() {
       fastspring.builder.reset();
       fastspring.builder.add("demo-product-1");
       fastspring.builder.tag({ "clickID": impactRadiusClickID });
-      console.log(impactRadiusClickID);
+      console.log("FastSpring order tag applied!");
       fastspring.builder.checkout();
     }
     
@@ -35,12 +35,7 @@
   <button onclick="buyNow()">
     Buy Me
   </button>
-function(event) {
-console.log(event);
 
-console.log("Click ID: ");
-console.log(event.data.tags.clickID);
-}
 </body>
 
 </html>
