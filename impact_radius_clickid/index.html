@@ -17,7 +17,7 @@
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
-    const impactRadiusClickID = urlParams.get('clickID');
+    const impactRadiusClickID = urlParams.get('irclickid');
     console.log(impactRadiusClickID);
 
     // Buy Now button action
@@ -28,13 +28,19 @@
       console.log(impactRadiusClickID);
       fastspring.builder.checkout();
     }
+    
   </script>
 
   <!-- Buy Now button launching a web storefront-->
   <button onclick="buyNow()">
     Buy Me
   </button>
+function(event) {
+console.log(event);
 
+console.log("Click ID: ");
+console.log(event.data.tags.clickID);
+}
 </body>
 
 </html>
