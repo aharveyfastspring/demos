@@ -1,0 +1,40 @@
+<html>
+
+<body>
+
+  <!-- FastSpring header script -->
+  <script 
+    id="fsc-api" 
+    src="https://d1f8f9xcsvx3ha.cloudfront.net/sbl/0.9.4/fastspring-builder.min.js"
+    type="text/javascript" 
+    data-storefront="aharvey.test.onfastspring.com">
+    </script>
+
+
+
+  <script type="text/javascript">
+    // get Impact Radius click ID from URL
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    const impactRadiusClickID = urlParams.get('clickID');
+    console.log(impactRadiusClickID);
+
+    // Buy Now button action
+    function buyNow() {
+      fastspring.builder.reset();
+      fastspring.builder.add("demo-product-1");
+      fastspring.builder.tag({ "clickID": impactRadiusClickID });
+      console.log(impactRadiusClickID);
+      fastspring.builder.checkout();
+    }
+  </script>
+
+  <!-- Buy Now button launching a web storefront-->
+  <button onclick="buyNow()">
+    Buy Me
+  </button>
+
+</body>
+
+</html>
